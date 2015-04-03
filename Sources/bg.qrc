@@ -1,8 +1,0 @@
-<RCC>
-    <qresource prefix="/">
-        <file>images/Panorama/bg/3.png</file>
-        <file>images/Panorama/bg/4.png</file>
-        <file>images/Panorama/bg/5.png</file>
-        <file>images/Panorama/bg/www.png</file>
-    </qresource>
-</RCC>

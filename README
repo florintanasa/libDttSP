@@ -1,0 +1,8 @@
+Port of DttSP from OpenExpertSDR to linux libDttSP.so on Ubuntu 14.04.
+
+To build:
+./bootstrap
+./configure
+make
+sudo make install
+sudo ldconfig

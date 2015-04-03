@@ -41,6 +41,6 @@ Bridgewater, NJ 08807
 #include <datatypes.h>
 #include <thunk.h>
 
-extern int do_update (char *str, FILE * log);
+extern int do_update(char *str, FILE *log);
 
 #endif

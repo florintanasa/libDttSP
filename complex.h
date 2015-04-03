@@ -36,7 +36,7 @@ Bridgewater, NJ 08807
 #include <datatypes.h>
 typedef struct _COMPLEX
 {
-  REAL re, im;
+    REAL re, im;
 } COMPLEX;
 
 #define c_re(x) ((x).re)

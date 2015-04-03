@@ -19,34 +19,34 @@
 
 typedef struct _fm_demod
 {
-  int size;
-  CXB ibuf, obuf;
-  struct
-  {
-    REAL alpha, beta;
+    int size;
+    CXB ibuf, obuf;
     struct
     {
-      REAL f, l, h;
-    } freq;
-    REAL phs;
-    struct
-    {
-      REAL alpha;
-    } iir;
-    COMPLEX delay;
-  } pll;
+        REAL alpha, beta;
+        struct
+        {
+            REAL f, l, h;
+        } freq;
+        REAL phs;
+        struct
+        {
+            REAL alpha;
+        } iir;
+        COMPLEX delay;
+    } pll;
 
-  REAL lock, afc, cvt;
+    REAL lock, afc, cvt;
 } FMDDesc, *FMD;
 
-extern void FMDemod (FMD fm);
-extern FMD newFMD (REAL samprate,
-		   REAL f_initial,
-		   REAL f_lobound,
-		   REAL f_hibound,
-		   REAL f_bandwid,
-		   int size, COMPLEX * ivec, COMPLEX * ovec, char *tag);
-extern void delFMD (FMD fm);
+extern void FMDemod(FMD fm);
+extern FMD newFMD(REAL samprate,
+                  REAL f_initial,
+                  REAL f_lobound,
+                  REAL f_hibound,
+                  REAL f_bandwid,
+                  int size, COMPLEX *ivec, COMPLEX *ovec, char *tag);
+extern void delFMD(FMD fm);
 
 #ifndef TWOPI
 #define TWOPI (2.0*M_PI)

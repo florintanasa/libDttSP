@@ -51,32 +51,32 @@ Bridgewater, NJ 08807
 
 typedef struct _cw_tone_gen
 {
-  REAL curr, gain, mul, scl, sr;
-  struct
-  {
-    REAL freq;
-    OSC gen;
-  } osc;
-  struct
-  {
-    REAL dur, incr;
-    int want, have;
-  } rise, fall;
-  int size, stage;
-  CXB buf;
+    REAL curr, gain, mul, scl, sr;
+    struct
+    {
+        REAL freq;
+        OSC gen;
+    } osc;
+    struct
+    {
+        REAL dur, incr;
+        int want, have;
+    } rise, fall;
+    int size, stage;
+    CXB buf;
 } CWToneGenDesc, *CWToneGen;
 
-extern CWToneGen newCWToneGen (REAL gain,	// dB
-			       REAL freq,	// Hz
-			       REAL rise,	// msec
-			       REAL fall,	// msec
-			       int size,	// buflen
-			       REAL samplerate);
-extern void delCWToneGen (CWToneGen gen);
-extern void setCWToneGenVals (CWToneGen gen,
-			      REAL gain, REAL freq, REAL rise, REAL fall);
-extern void CWToneOn (CWToneGen gen);
-extern void CWToneOff (CWToneGen gen);
-extern BOOLEAN CWTone (CWToneGen gen);
+extern CWToneGen newCWToneGen(REAL gain,   // dB
+                              REAL freq,   // Hz
+                              REAL rise,   // msec
+                              REAL fall,   // msec
+                              int size,    // buflen
+                              REAL samplerate);
+extern void delCWToneGen(CWToneGen gen);
+extern void setCWToneGenVals(CWToneGen gen,
+                             REAL gain, REAL freq, REAL rise, REAL fall);
+extern void CWToneOn(CWToneGen gen);
+extern void CWToneOff(CWToneGen gen);
+extern BOOLEAN CWTone(CWToneGen gen);
 
 #endif

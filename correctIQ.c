@@ -48,97 +48,89 @@ static float p[COEFF_SIZE];
 static unsigned char cntK = 0;
 
 IQ
-newCorrectIQ (REAL phase, REAL gain)
+newCorrectIQ(REAL phase, REAL gain)
 {
-  int i;
+    int i;
 
-  IQ iq = (IQ) safealloc (1, sizeof (iqstate), "IQ state");
-  iq->phase = phase;
-  iq->gain = gain;
+    IQ iq = (IQ)safealloc(1, sizeof(iqstate), "IQ state");
+    iq->phase = phase;
+    iq->gain = gain;
 
-  for(i = 0; i < 100; i++)
-  {
-    a[i] = 1.0f;
-	p[i] = 0.0f;
-  }
+    for (i = 0; i < 100; i++)
+    {
+        a[i] = 1.0f;
+        p[i] = 0.0f;
+    }
 
-  return iq;
+    return (iq);
 }
 
 void
-delCorrectIQ (IQ iq)
+delCorrectIQ(IQ iq)
 {
-  safefree ((char *) iq);
+    safefree((char *)iq);
 }
 
 void
-correctIQ (CXB sigbuf, IQ iq)
+correctIQ(CXB sigbuf, IQ iq)
 {
 
-	// this part modified by Valery Mikhaylovsky mail maksimus1210@gmail.com
+    // this part modified by Valery Mikhaylovsky mail maksimus1210@gmail.com
 
-	int i;
-	register float tmp1 = 0, tmp2 = 0, tmp3 = 0, gain = 1, P = 0;
+    int i;
+    register float tmp1 = 0, tmp2 = 0, tmp3 = 0, gain = 1, P = 0;
 
-	if(cntK > (COEFF_SIZE-1)) cntK = 0;
+    if(cntK > (COEFF_SIZE - 1)) cntK = 0;
 
-	if(isTx == 0)	// receive mode
-	{
-		if(rxCorrEna != 0)
-		{
-			if(rejCounter == (MAX_REJ_COUNT-1))
-			{
-				for (i = 0; i < CXBhave (sigbuf); i++)
-				{
-					tmp1 += CXBreal(sigbuf, i)*CXBreal(sigbuf, i);
-    				tmp2 += CXBimag(sigbuf, i)*CXBimag(sigbuf, i);
-    				tmp3 += CXBreal(sigbuf, i)*CXBimag(sigbuf, i);
-				}
-				if(tmp1 == 0)
-    				tmp1 = 0.000001;
+    if(isTx == 0)   // receive mode
+    {
+        if(rxCorrEna != 0)
+        {
+            if(rejCounter == (MAX_REJ_COUNT - 1))
+            {
+                for (i = 0; i < CXBhave(sigbuf); i++)
+                {
+                    tmp1 += CXBreal(sigbuf, i) * CXBreal(sigbuf, i);
+                    tmp2 += CXBimag(sigbuf, i) * CXBimag(sigbuf, i);
+                    tmp3 += CXBreal(sigbuf, i) * CXBimag(sigbuf, i);
+                }
+                if(tmp1 == 0) tmp1 = 0.000001;
 
-				gain = sqrt(tmp2/tmp1);
+                gain = sqrt(tmp2 / tmp1);
 
-				if(gain > 1.5)
-    				gain = 1.5;
-				else if(gain < 0.5)
-    				gain = 0.5;
+                if(gain > 1.5) gain = 1.5;
+                else if(gain < 0.5) gain = 0.5;
 
-				a[cntK] = gain;
-				p[cntK] = tmp3/tmp1;
-			}
+                a[cntK] = gain;
+                p[cntK] = tmp3 / tmp1;
+            }
 
-				tmp1 = 0;
-				tmp3 = 0;
-				for(i = 0; i < COEFF_SIZE; i++)
-				{
-					tmp1 += a[i];
-					tmp3 += p[i];
-				}
-				gain = tmp1/COEFF_SIZE;
-				P = tmp3/COEFF_SIZE;
+            tmp1 = 0;
+            tmp3 = 0;
+            for (i = 0; i < COEFF_SIZE; i++)
+            {
+                tmp1 += a[i];
+                tmp3 += p[i];
+            }
+            gain = tmp1 / COEFF_SIZE;
+            P = tmp3 / COEFF_SIZE;
 
-				if(P > 0.2)
-    				P = 0.2;
-				else if(P < -0.2)
-    				P = -0.2;
+            if(P > 0.2) P = 0.2;
+            else if(P < -0.2) P = -0.2;
 
-				tmp1 = sqrt(1-P*P);
-				if(tmp1 == 0)
-    				tmp1 = 0.000001;
-			if(++rejCounter >= MAX_REJ_COUNT) rejCounter = 0;
+            tmp1 = sqrt(1 - P * P);
+            if(tmp1 == 0) tmp1 = 0.000001;
+            if(++rejCounter >= MAX_REJ_COUNT) rejCounter = 0;
 
-			for(i = 0; i < CXBhave (sigbuf); i++)
-    			CXBimag(sigbuf, i) = (1.0/tmp1)*(CXBimag(sigbuf, i) - P*CXBreal(sigbuf, i))/gain;
-			++cntK;
-		}
-	}
-	else			// transmit mode
-	{
-		for (i = 0; i < CXBhave (sigbuf); i++)
-		{
-			CXBimag (sigbuf, i) += iq->phase * CXBreal (sigbuf, i);
-			CXBreal (sigbuf, i) *= iq->gain;
-		}
-	}
+            for (i = 0; i < CXBhave(sigbuf); i++) CXBimag(sigbuf, i) = (1.0 / tmp1) * (CXBimag(sigbuf, i) - P * CXBreal(sigbuf, i)) / gain;
+            ++cntK;
+        }
+    } else            // transmit mode
+    {
+        for (i = 0; i < CXBhave(sigbuf); i++)
+        {
+            CXBimag(sigbuf, i) += iq->phase * CXBreal(sigbuf, i);
+            CXBreal(sigbuf, i) *= iq->gain;
+        }
+    }
 }

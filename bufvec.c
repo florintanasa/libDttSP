@@ -37,70 +37,64 @@ Bridgewater, NJ 08807
 /*------------------------------------------------------------------------*/
 /* wrapper around calloc */
 //#include <fftw3.h>
-char *
-safealloc (int count, int nbytes, char *tag)
+char*
+safealloc(int count, int nbytes, char *tag)
 {
-  char *p = calloc (count, nbytes);
+    char *p = calloc(count, nbytes);
 //  char *p = (char *)malloc((size_t)(nbytes*count));
 //  memset(p,0,(size_t)(count*nbytes));
-  if (!p)
+    if(!p)
     {
-      if (tag && *tag)
-	fprintf (stderr, "safealloc: %s\n", tag);
-      else
-	perror ("safealloc");
-      exit (1);
+        if(tag && *tag) fprintf(stderr, "safealloc: %s\n", tag);
+        else perror("safealloc");
+        exit(1);
     }
-  return p;
+    return (p);
 }
 
 void
-safefree (char *p)
+safefree(char *p)
 {
-  if (p)
-    free ((void *) p);
+    if(p) free((void *)p);
 }
 
 /*------------------------------------------------------------------------*/
 /* allocate/free just vectors */
 
-REAL *
-newvec_REAL (int size, char *tag)
+REAL*
+newvec_REAL(int size, char *tag)
 {
-  return (REAL *) safealloc (size, sizeof (REAL), tag);
+    return ((REAL *)safealloc(size, sizeof(REAL), tag));
 }
 
 void
-delvec_REAL (REAL * vec)
+delvec_REAL(REAL *vec)
 {
-  if (vec)
-    free ((char *) vec);
+    if(vec) free((char *)vec);
 }
 
-IMAG *
-newvec_IMAG (int size, char *tag)
+IMAG*
+newvec_IMAG(int size, char *tag)
 {
-  return (IMAG *) safealloc (size, sizeof (IMAG), tag);
-}
-
-void
-delvec_IMAG (IMAG * vec)
-{
-  if (vec)
-    free ((char *) vec);
-}
-
-COMPLEX *
-newvec_COMPLEX (int size, char *tag)
-{
-  return (COMPLEX *) safealloc (size, sizeof (COMPLEX), tag);
+    return ((IMAG *)safealloc(size, sizeof(IMAG), tag));
 }
 
 void
-delvec_COMPLEX (COMPLEX * vec)
+delvec_IMAG(IMAG *vec)
 {
-  if (vec)
-    free ((char *) vec);
+    if(vec) free((char *)vec);
+}
+
+COMPLEX*
+newvec_COMPLEX(int size, char *tag)
+{
+    return ((COMPLEX *)safealloc(size, sizeof(COMPLEX), tag));
+}
+
+void
+delvec_COMPLEX(COMPLEX *vec)
+{
+    if(vec) free((char *)vec);
 }
 
 /*------------------------------------------------------------------------*/
@@ -109,32 +103,30 @@ delvec_COMPLEX (COMPLEX * vec)
 /* complex */
 
 CXB
-newCXB (int size, COMPLEX * base, char *tag)
+newCXB(int size, COMPLEX *base, char *tag)
 {
-  CXB p = (CXB) safealloc (1, sizeof (CXBuffer), tag);
-  if (base)
+    CXB p = (CXB)safealloc(1, sizeof(CXBuffer), tag);
+    if(base)
     {
-      CXBbase (p) = base;
-      CXBmine (p) = FALSE;
-    }
-  else
+        CXBbase(p) = base;
+        CXBmine(p) = FALSE;
+    } else
     {
-      CXBbase (p) = newvec_COMPLEX (size, "newCXB");
-      CXBmine (p) = TRUE;
+        CXBbase(p) = newvec_COMPLEX(size, "newCXB");
+        CXBmine(p) = TRUE;
     }
-  CXBsize (p) = CXBwant (p) = size;
-  CXBovlp (p) = CXBhave (p) = CXBdone (p) = 0;
-  return p;
+    CXBsize(p) = CXBwant(p) = size;
+    CXBovlp(p) = CXBhave(p) = CXBdone(p) = 0;
+    return (p);
 }
 
 void
-delCXB (CXB p)
+delCXB(CXB p)
 {
-  if (p)
+    if(p)
     {
-      if (CXBmine (p))
-	delvec_COMPLEX (CXBbase (p));
-      free ((char *) p);
+        if(CXBmine(p)) delvec_COMPLEX(CXBbase(p));
+        free((char *)p);
     }
 }
 
@@ -142,32 +134,30 @@ delCXB (CXB p)
 /* real */
 
 RLB
-newRLB (int size, REAL * base, char *tag)
+newRLB(int size, REAL *base, char *tag)
 {
-  RLB p = (RLB) safealloc (1, sizeof (RLBuffer), tag);
-  if (base)
+    RLB p = (RLB)safealloc(1, sizeof(RLBuffer), tag);
+    if(base)
     {
-      RLBbase (p) = base;
-      RLBmine (p) = FALSE;
-    }
-  else
+        RLBbase(p) = base;
+        RLBmine(p) = FALSE;
+    } else
     {
-      RLBbase (p) = newvec_REAL (size, "newRLB");
-      RLBmine (p) = TRUE;
+        RLBbase(p) = newvec_REAL(size, "newRLB");
+        RLBmine(p) = TRUE;
     }
-  RLBsize (p) = RLBwant (p) = size;
-  RLBovlp (p) = RLBhave (p) = RLBdone (p) = 0;
-  return p;
+    RLBsize(p) = RLBwant(p) = size;
+    RLBovlp(p) = RLBhave(p) = RLBdone(p) = 0;
+    return (p);
 }
 
 void
-delRLB (RLB p)
+delRLB(RLB p)
 {
-  if (p)
+    if(p)
     {
-      if (p->mine)
-	delvec_REAL (RLBbase (p));
-      free ((char *) p);
+        if(p->mine) delvec_REAL(RLBbase(p));
+        free((char *)p);
     }
 }
 
@@ -175,55 +165,45 @@ delRLB (RLB p)
 // return normalization constant
 
 REAL
-normalize_vec_REAL (REAL * v, int n)
+normalize_vec_REAL(REAL *v, int n)
 {
-  if (v && (n > 0))
+    if(v && (n > 0))
     {
-      int i;
-      REAL big = -(REAL) MONDO;
-      for (i = 0; i < n; i++)
-	{
-	  REAL a = abs (v[i]);
-	  big = max (big, a);
-	}
-      if (big > 0.0)
-	{
-	  REAL scl = (REAL) (1.0 / big);
-	  for (i = 0; i < n; i++)
-	    v[i] *= scl;
-	  return scl;
-	}
-      else
-	return 0.0;
-    }
-  else
-    return 0.0;
+        int i;
+        REAL big = -(REAL)MONDO;
+        for (i = 0; i < n; i++)
+        {
+            REAL a = abs(v[i]);
+            big = max(big, a);
+        }
+        if(big > 0.0)
+        {
+            REAL scl = (REAL)(1.0 / big);
+            for (i = 0; i < n; i++) v[i] *= scl;
+            return (scl);
+        } else return (0.0);
+    } else return (0.0);
 }
 
 REAL
-normalize_vec_COMPLEX (COMPLEX * z, int n)
+normalize_vec_COMPLEX(COMPLEX *z, int n)
 {
-  if (z && (n > 0))
+    if(z && (n > 0))
     {
-      int i;
-      REAL big = -(REAL) MONDO;
-      for (i = 0; i < n; i++)
-	{
-	  REAL a = Cabs (z[i]);
-	  big = max (big, a);
-	}
-      if (big > 0.0)
-	{
-	  REAL scl = (REAL) (1.0 / big);
-	  for (i = 0; i < n; i++)
-	    z[i] = Cscl (z[i], scl);
-	  return scl;
-	}
-      else
-	return 0.0;
-    }
-  else
-    return 0.0;
+        int i;
+        REAL big = -(REAL)MONDO;
+        for (i = 0; i < n; i++)
+        {
+            REAL a = Cabs(z[i]);
+            big = max(big, a);
+        }
+        if(big > 0.0)
+        {
+            REAL scl = (REAL)(1.0 / big);
+            for (i = 0; i < n; i++) z[i] = Cscl(z[i], scl);
+            return (scl);
+        } else return (0.0);
+    } else return (0.0);
 }
 
 /*------------------------------------------------------------------------*/
@@ -231,34 +211,28 @@ normalize_vec_COMPLEX (COMPLEX * z, int n)
 /* mostly for debugging when necessary */
 
 void
-dump_REAL (FILE * fp, char *head, REAL * ptr, int beg, int fin)
+dump_REAL(FILE *fp, char *head, REAL *ptr, int beg, int fin)
 {
-  int i;
-  FILE *iop = fp ? fp : stderr;
-  if (head && *head)
-    fprintf (iop, "dump_REAL: %s\n", head);
-  for (i = beg; i < fin; i++)
-    fprintf (iop, "%5d %g\n", i, ptr[i]);
+    int i;
+    FILE *iop = fp ? fp : stderr;
+    if(head && *head) fprintf(iop, "dump_REAL: %s\n", head);
+    for (i = beg; i < fin; i++) fprintf(iop, "%5d %g\n", i, ptr[i]);
 }
 
 void
-dump_IMAG (FILE * fp, char *head, IMAG * ptr, int beg, int fin)
+dump_IMAG(FILE *fp, char *head, IMAG *ptr, int beg, int fin)
 {
-  int i;
-  FILE *iop = fp ? fp : stderr;
-  if (head && *head)
-    fprintf (iop, "dump_REAL: %s\n", head);
-  for (i = beg; i < fin; i++)
-    fprintf (iop, "%5d %g\n", i, ptr[i]);
+    int i;
+    FILE *iop = fp ? fp : stderr;
+    if(head && *head) fprintf(iop, "dump_REAL: %s\n", head);
+    for (i = beg; i < fin; i++) fprintf(iop, "%5d %g\n", i, ptr[i]);
 }
 
 void
-dump_CX (FILE * fp, char *head, COMPLEX * ptr, int beg, int fin)
+dump_CX(FILE *fp, char *head, COMPLEX *ptr, int beg, int fin)
 {
-  int i;
-  FILE *iop = fp ? fp : stderr;
-  if (head && *head)
-    fprintf (iop, "dump_CX: %s\n", head);
-  for (i = beg; i < fin; i++)
-    fprintf (iop, "%5d %g %g\n", i, ptr[i].re, ptr[i].im);
+    int i;
+    FILE *iop = fp ? fp : stderr;
+    if(head && *head) fprintf(iop, "dump_CX: %s\n", head);
+    for (i = beg; i < fin; i++) fprintf(iop, "%5d %g %g\n", i, ptr[i].re, ptr[i].im);
 }

@@ -33,43 +33,43 @@ Bridgewater, NJ 08807
 #ifndef _dttspagc_h
 #define _dttspagc_h
 typedef enum _agcmode
-{ agcOFF, agcLONG, agcSLOW, agcMED, agcFAST } AGCMODE;
+{agcOFF, agcLONG, agcSLOW, agcMED, agcFAST } AGCMODE;
 typedef struct _dttspagc
 {
-  int mode;
-  struct _gain
-  {
-    REAL top, now, fastnow, bottom, old, limit, raw, fix;
-  } gain, fastgain;
-  REAL attack;
-  REAL one_m_attack;
-  REAL decay;
-  REAL one_m_decay;
-  REAL slope;
-  REAL fastattack;
-  REAL one_m_fastattack;
-  REAL fastdecay;
-  REAL one_m_fastdecay;
-  REAL hangtime;
-  REAL hangthresh;
-  REAL fasthangtime;		//wa6ahl:  added to structure
-  COMPLEX *circ;
-  CXB buff;
-  int mask;
-  int indx;
-  int sndx;
-  int hangindex;
-  int fastindx;
-  int fasthang;			//wa6ahl:  added to structure
-  char tag[4];
+    int mode;
+    struct _gain
+    {
+        REAL top, now, fastnow, bottom, old, limit, raw, fix;
+    } gain, fastgain;
+    REAL attack;
+    REAL one_m_attack;
+    REAL decay;
+    REAL one_m_decay;
+    REAL slope;
+    REAL fastattack;
+    REAL one_m_fastattack;
+    REAL fastdecay;
+    REAL one_m_fastdecay;
+    REAL hangtime;
+    REAL hangthresh;
+    REAL fasthangtime;        //wa6ahl:  added to structure
+    COMPLEX *circ;
+    CXB buff;
+    int mask;
+    int indx;
+    int sndx;
+    int hangindex;
+    int fastindx;
+    int fasthang;         //wa6ahl:  added to structure
+    char tag[4];
 } dttspagc, *DTTSPAGC;
 
-extern void DttSPAgc (DTTSPAGC a, int tick);
-extern DTTSPAGC newDttSPAgc (AGCMODE mode, COMPLEX * Vec, int BufSize,
-			     REAL Limit, REAL attack, REAL decay,
-			     REAL slope, REAL hangtime, REAL samprate,
-			     REAL MaxGain, REAL MinGain, REAL Curgain,
-			     char *tag);
-extern void delDttSPAgc (DTTSPAGC a);
+extern void DttSPAgc(DTTSPAGC a, int tick);
+extern DTTSPAGC newDttSPAgc(AGCMODE mode, COMPLEX *Vec, int BufSize,
+                            REAL Limit, REAL attack, REAL decay,
+                            REAL slope, REAL hangtime, REAL samprate,
+                            REAL MaxGain, REAL MinGain, REAL Curgain,
+                            char *tag);
+extern void delDttSPAgc(DTTSPAGC a);
 #define FASTLEAD 72
 #endif

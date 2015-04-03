@@ -71,88 +71,88 @@ Bridgewater, NJ 08807
 typedef struct _keyer_state
 {
 
-  struct
-  {
-
-    BOOLEAN iambic,		// iambic or straight
-      mdlmdB, revpdl;		// paddles reversed
-
     struct
     {
-      BOOLEAN dit, dah;
-    } memory;
 
-    struct
-    {
-      BOOLEAN khar, word;
-    } autospace;
+        BOOLEAN iambic,     // iambic or straight
+        mdlmdB, revpdl;       // paddles reversed
 
-  } flag;
+        struct
+        {
+            BOOLEAN dit, dah;
+        } memory;
 
-  int debounce,			// # seconds to read paddles
-    mode,			// 0 = mode A, 1 = mode B
-    weight;			// 15 -> 85%
+        struct
+        {
+            BOOLEAN khar, word;
+        } autospace;
 
-  REAL wpm;			// for iambic keyer
+    } flag;
+
+    int debounce,         // # seconds to read paddles
+    mode,           // 0 = mode A, 1 = mode B
+    weight;         // 15 -> 85%
+
+    REAL wpm;         // for iambic keyer
 
 } KeyerStateInfo, *KeyerState;
 
-extern KeyerState newKeyerState (void);
-extern void delKeyerState (KeyerState ks);
+extern KeyerState newKeyerState(void);
+extern void delKeyerState(KeyerState ks);
 
 //------------------------------------------------------------------------
 
 typedef struct _keyer_logic
 {
 
-  struct
-  {
-    BOOLEAN init;
+    struct
+    {
+        BOOLEAN init;
+
+        struct
+        {
+            BOOLEAN dit, dah;
+        } prev;
+
+    } flag;
 
     struct
     {
-      BOOLEAN dit, dah;
-    } prev;
+        BOOLEAN invtd,      // insert inverted element
+        psqam;            // paddles squeezed after mid-element
+        int curr,           // -1 = nothing, 0 = dit, 1 = dah
+        iamb,         //  0 = none, 1 = squeezed, 2 = released
+        last;         // -1 = nothing, 0 = dit, 1 = dah
+    } element;
 
-  } flag;
+    struct
+    {
+        REAL beep, dlay, elem, midl;
+    } timeout;
 
-  struct
-  {
-    BOOLEAN invtd,		// insert inverted element
-      psqam;			// paddles squeezed after mid-element
-    int curr,			// -1 = nothing, 0 = dit, 1 = dah
-      iamb,			//  0 = none, 1 = squeezed, 2 = released
-      last;			// -1 = nothing, 0 = dit, 1 = dah
-  } element;
-
-  struct
-  {
-    REAL beep, dlay, elem, midl;
-  } timeout;
-
-  int dlay_type;		// 0 = none, 1 = interchar, 2 = interword
+    int dlay_type;        // 0 = none, 1 = interchar, 2 = interword
 
 } KeyerLogicInfo, *KeyerLogic;
 
-extern KeyerLogic newKeyerLogic (void);
-extern void delKeyerLogic (KeyerLogic kl);
+extern KeyerLogic newKeyerLogic(void);
+extern void delKeyerLogic(KeyerLogic kl);
 
 //========================================================================
 
-extern BOOLEAN klogic (KeyerLogic kl,
-		       BOOLEAN dit,
-		       BOOLEAN dah,
-		       REAL wpm,
-		       int iambicmode,
-		       BOOLEAN midelementmodeB,
-		       BOOLEAN ditmemory,
-		       BOOLEAN dahmemory,
-		       BOOLEAN autocharspacing,
-		       BOOLEAN autowordspacing, int weight, REAL ticklen);
+extern BOOLEAN klogic(KeyerLogic kl,
+                      BOOLEAN dit,
+                      BOOLEAN dah,
+                      REAL wpm,
+                      int iambicmode,
+                      BOOLEAN midelementmodeB,
+                      BOOLEAN ditmemory,
+                      BOOLEAN dahmemory,
+                      BOOLEAN autocharspacing,
+                      BOOLEAN autowordspacing, int weight, REAL ticklen);
 
-extern BOOLEAN read_straight_key_serial (KeyerState ks, int fd);
-extern BOOLEAN read_iambic_key_serial (KeyerState ks, int fd, KeyerLogic kl,
-				       REAL ticklen);
+extern BOOLEAN read_straight_key_serial(KeyerState ks, int fd);
+extern BOOLEAN read_iambic_key_serial(KeyerState ks, int fd, KeyerLogic kl,
+                                      REAL ticklen);
 
 //========================================================================
 

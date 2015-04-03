@@ -5,12 +5,12 @@
 
 typedef struct _iqstate
 {
-  REAL phase, gain;
+    REAL phase, gain;
 } *IQ, iqstate;
 
-extern IQ newCorrectIQ (REAL phase, REAL gain);
-extern void delCorrectIQ (IQ iq);
-extern void correctIQ (CXB sigbuf, IQ iq);
+extern IQ newCorrectIQ(REAL phase, REAL gain);
+extern void delCorrectIQ(IQ iq);
+extern void correctIQ(CXB sigbuf, IQ iq);
 extern BOOLEAN isTx;
 extern int rxCorrEna;
 

@@ -41,11 +41,11 @@ typedef int OscType;
 
 typedef struct _oscillator
 {
-  int size;
-  void *signalpoints;
-  double Phase;
-  double Frequency;
-  OscType OscillatorType;
+    int size;
+    void *signalpoints;
+    double Phase;
+    double Frequency;
+    OscType OscillatorType;
 } oscillator, *OSC;
 
 
@@ -63,11 +63,11 @@ typedef struct _oscillator
 #define OSCfreq(p)     ((p)->Frequency)
 #define OSCtype(p)     ((p)->OscillatorType)
 
-extern void ComplexOSC (OSC);
-extern void RealOSC (OSC);
-extern OSC newOSC (int size, OscType TypeOsc, double Frequency,
-		   double Phase, REAL SampleRate, char *tag);
-extern void delOSC (OSC);
-extern void fixOSC (OSC p, double Frequency, double Phase, REAL SampleRate);
+extern void ComplexOSC(OSC);
+extern void RealOSC(OSC);
+extern OSC newOSC(int size, OscType TypeOsc, double Frequency,
+                  double Phase, REAL SampleRate, char *tag);
+extern void delOSC(OSC);
+extern void fixOSC(OSC p, double Frequency, double Phase, REAL SampleRate);
 
 #endif

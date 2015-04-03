@@ -51,34 +51,34 @@
 #define MONDO 1e15
 #define BITSY 1e-15
 
-extern void nilfunc (void);
-extern INLINE REAL sqr (REAL);
-extern int popcnt (int);
-extern int npoof2 (int);
-extern int nblock2 (int);
+extern void nilfunc(void);
+extern INLINE REAL sqr(REAL);
+extern int popcnt(int);
+extern int npoof2(int);
+extern int nblock2(int);
 
-extern int in_blocks (int count, int block_size);
+extern int in_blocks(int count, int block_size);
 
-extern FILE *efopen (char *path, char *mode);
-extern FILE *efreopen (char *path, char *mode, FILE * strm);
-extern size_t filesize (char *path);
-extern size_t fdsize (int fd);
+extern FILE* efopen(char *path, char *mode);
+extern FILE* efreopen(char *path, char *mode, FILE *strm);
+extern size_t filesize(char *path);
+extern size_t fdsize(int fd);
 
-extern struct timeval now_tv (void);
-extern struct timeval diff_tv (struct timeval *, struct timeval *);
-extern struct timeval sum_tv (struct timeval *, struct timeval *);
-extern char *fmt_tv (struct timeval *);
-extern char *since (struct timeval *);
-extern struct timeval now_tv (void);
+extern struct timeval now_tv(void);
+extern struct timeval diff_tv(struct timeval *, struct timeval *);
+extern struct timeval sum_tv(struct timeval *, struct timeval *);
+extern char* fmt_tv(struct timeval *);
+extern char* since(struct timeval *);
+extern struct timeval now_tv(void);
 
-extern int hinterp_vec (REAL *, int, REAL *, int);
+extern int hinterp_vec(REAL *, int, REAL *, int);
 
-extern void status_message (char *msg);
+extern void status_message(char *msg);
 
-extern FILE *find_rcfile (char *base);
+extern FILE* find_rcfile(char *base);
 
-extern unsigned long hash (unsigned char *str);
-extern int gcd (int m, int n);
-extern int least_common_mul (int i, int j);
+extern unsigned long hash(unsigned char *str);
+extern int gcd(int m, int n);
+extern int least_common_mul(int i, int j);
 
 #endif

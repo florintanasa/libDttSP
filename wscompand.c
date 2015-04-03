@@ -35,80 +35,74 @@ Bridgewater, NJ 08807
 #include <wscompand.h>
 
 PRIVATE INLINE REAL
-WSCLookup (WSCompander wsc, REAL x)
+WSCLookup(WSCompander wsc, REAL x)
 {
-  if (x > 0.0)
+    if(x > 0.0)
     {
-      REAL d = x - (int) x, y, *tbl = wsc->tbl;
-      int i = (int) (x * wsc->npts), end = wsc->nend;
-      if (i < end)
-	y = tbl[i] + d * (tbl[i + 1] - tbl[i]);
-      else
-	y = tbl[end];
-      return y / x;
-    }
-  else
-    return 0.0;
+        REAL d = x - (int)x, y, *tbl = wsc->tbl;
+        int i = (int)(x * wsc->npts), end = wsc->nend;
+        if(i < end) y = tbl[i] + d * (tbl[i + 1] - tbl[i]);
+        else y = tbl[end];
+        return (y / x);
+    } else return (0.0);
 }
 
 void
-WSCompand (WSCompander wsc)
+WSCompand(WSCompander wsc)
 {
-  int i, n = CXBsize (wsc->buff);
+    int i, n = CXBsize(wsc->buff);
 
-  for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
     {
-      COMPLEX val = CXBdata (wsc->buff, i);
-      REAL mag = Cmag (val), scl = WSCLookup (wsc, mag);
-      CXBdata (wsc->buff, i) = Cscl (val, 0.8f*scl);
+        COMPLEX val = CXBdata(wsc->buff, i);
+        REAL mag = Cmag(val), scl = WSCLookup(wsc, mag);
+        CXBdata(wsc->buff, i) = Cscl(val, 0.8f * scl);
     }
 }
 
 void
-WSCReset (WSCompander wsc, REAL fac)
+WSCReset(WSCompander wsc, REAL fac)
 {
-  int i;
-  REAL *tbl = wsc->tbl;
+    int i;
+    REAL *tbl = wsc->tbl;
 
-  if (fac == 0.0)		// just linear
-    for (i = 0; i < wsc->npts; i++)
-      tbl[i] = i / (REAL) wsc->nend;
+    if(fac == 0.0)       // just linear
+        for (i = 0; i < wsc->npts; i++) tbl[i] = i / (REAL)wsc->nend;
 
-  else
-    {				// exponential
-      REAL del = fac / wsc->nend, scl = (REAL) (1.0 - exp (fac));
-      for (i = 0; i < wsc->npts; i++)
-	tbl[i] = (REAL) ((1.0 - exp (i * del)) / scl);
+    else
+    {               // exponential
+        REAL del = fac / wsc->nend, scl = (REAL)(1.0 - exp(fac));
+        for (i = 0; i < wsc->npts; i++) tbl[i] = (REAL)((1.0 - exp(i * del)) / scl);
     }
-  wsc->fac = fac;
+    wsc->fac = fac;
 }
 
 // fac < 0: compression
 // fac > 0: expansion
 
 WSCompander
-newWSCompander (int npts, REAL fac, CXB buff)
+newWSCompander(int npts, REAL fac, CXB buff)
 {
-  WSCompander wsc;
+    WSCompander wsc;
 
-  wsc = (WSCompander) safealloc (1,
-				 sizeof (WSCompanderInfo),
-				 "WSCompander struct");
-  wsc->npts = npts;
-  wsc->nend = npts - 1;
-  wsc->tbl = newvec_REAL (npts, "WSCompander table");
-  wsc->buff = newCXB (CXBsize (buff), CXBbase (buff), "WSCompander buff");
-  WSCReset (wsc, fac);
-  return wsc;
+    wsc = (WSCompander)safealloc(1,
+                                 sizeof(WSCompanderInfo),
+                                 "WSCompander struct");
+    wsc->npts = npts;
+    wsc->nend = npts - 1;
+    wsc->tbl = newvec_REAL(npts, "WSCompander table");
+    wsc->buff = newCXB(CXBsize(buff), CXBbase(buff), "WSCompander buff");
+    WSCReset(wsc, fac);
+    return (wsc);
 }
 
 void
-delWSCompander (WSCompander wsc)
+delWSCompander(WSCompander wsc)
 {
-  if (wsc)
+    if(wsc)
     {
-      delvec_REAL (wsc->tbl);
-      delCXB (wsc->buff);
-      safefree ((char *) wsc);
+        delvec_REAL(wsc->tbl);
+        delCXB(wsc->buff);
+        safefree((char *)wsc);
     }
 }

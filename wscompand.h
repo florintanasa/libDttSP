@@ -44,18 +44,18 @@ Bridgewater, NJ 08807
 
 typedef struct _wscompander
 {
-  int npts, nend;
-  REAL fac, *tbl;
-  CXB buff;
+    int npts, nend;
+    REAL fac, *tbl;
+    CXB buff;
 } WSCompanderInfo, *WSCompander;
 
-extern void WSCompand (WSCompander wsc);
+extern void WSCompand(WSCompander wsc);
 
 // fac < 0: compression
 // fac > 0: expansion
 
-extern void WSCReset (WSCompander wsc, REAL fac);
-extern WSCompander newWSCompander (int npts, REAL fac, CXB buff);
-extern void delWSCompander (WSCompander wsc);
+extern void WSCReset(WSCompander wsc, REAL fac);
+extern WSCompander newWSCompander(int npts, REAL fac, CXB buff);
+extern void delWSCompander(WSCompander wsc);
 
 #endif

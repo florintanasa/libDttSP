@@ -41,155 +41,148 @@ Bridgewater, NJ 08807
 //------------------------------------------------------------------------
 
 BOOLEAN
-SpotTone (SpotToneGen st)
+SpotTone(SpotToneGen st)
 {
-  int i, n = st->size;
+    int i, n = st->size;
 
-  ComplexOSC (st->osc.gen);
+    ComplexOSC(st->osc.gen);
 
-  for (i = 0; i < n; i++)
+    for (i = 0; i < n; i++)
     {
 
-      // in an envelope stage?
+        // in an envelope stage?
 
-      if (st->stage == SpotTone_RISE)
-	{
+        if(st->stage == SpotTone_RISE)
+        {
 
-	  // still going?
-	  if (st->rise.have++ < st->rise.want)
-	    {
-	      st->curr += st->rise.incr;
-	      st->mul = (REAL) (st->scl * sin (st->curr * M_PI / 2.0));
-	    }
-	  else
-	    {
-	      // no, assert steady-state, force level
-	      st->curr = 1.0;
-	      st->mul = st->scl;
-	      st->stage = SpotTone_STDY;
-	      // won't come back into envelopes
-	      // until FALL asserted from outside
-	    }
+            // still going?
+            if(st->rise.have++ < st->rise.want)
+            {
+                st->curr += st->rise.incr;
+                st->mul = (REAL)(st->scl * sin(st->curr * M_PI / 2.0));
+            } else
+            {
+                // no, assert steady-state, force level
+                st->curr = 1.0;
+                st->mul = st->scl;
+                st->stage = SpotTone_STDY;
+                // won't come back into envelopes
+                // until FALL asserted from outside
+            }
 
-	}
-      else if (st->stage == SpotTone_FALL)
-	{
+        } else if(st->stage == SpotTone_FALL)
+        {
 
-	  // still going?
-	  if (st->fall.have++ < st->fall.want)
-	    {
-	      st->curr -= st->fall.incr;
-	      st->mul = (REAL) (st->scl * sin (st->curr * M_PI / 2.0));
-	    }
-	  else
-	    {
-	      // no, assert trailing, force level
-	      st->curr = 0.0;
-	      st->mul = 0.0;
-	      st->stage = SpotTone_HOLD;
-	      // won't come back into envelopes hereafter
-	    }
-	}
-      // apply envelope
-      // (same base as osc.gen internal buf)
-      CXBdata (st->buf, i) = Cscl (CXBdata (st->buf, i), st->mul);
+            // still going?
+            if(st->fall.have++ < st->fall.want)
+            {
+                st->curr -= st->fall.incr;
+                st->mul = (REAL)(st->scl * sin(st->curr * M_PI / 2.0));
+            } else
+            {
+                // no, assert trailing, force level
+                st->curr = 0.0;
+                st->mul = 0.0;
+                st->stage = SpotTone_HOLD;
+                // won't come back into envelopes hereafter
+            }
+        }
+        // apply envelope
+        // (same base as osc.gen internal buf)
+        CXBdata(st->buf, i) = Cscl(CXBdata(st->buf, i), st->mul);
     }
 
-  // indicate whether it's turned itself off
-  // sometime during this pass
+    // indicate whether it's turned itself off
+    // sometime during this pass
 
-  return st->stage != SpotTone_HOLD;
+    return (st->stage != SpotTone_HOLD);
 }
 
 //------------------------------------------------------------------------
 // turn spotting on with current settings
 
 void
-SpotToneOn (SpotToneGen st)
+SpotToneOn(SpotToneGen st)
 {
 
-  // gain is in dB
+    // gain is in dB
 
-  st->scl = (REAL) pow (10.0, st->gain / 20.0);
-  st->curr = st->mul = 0.0;
+    st->scl = (REAL)pow(10.0, st->gain / 20.0);
+    st->curr = st->mul = 0.0;
 
-  // A/R times are in msec
+    // A/R times are in msec
 
-  st->rise.want = (int) (0.5 + st->sr * (st->rise.dur / 1e3));
-  st->rise.have = 0;
-  if (st->rise.want <= 1)
-    st->rise.incr = 1.0;
-  else
-    st->rise.incr = (REAL) (1.0 / (st->rise.want - 1));
+    st->rise.want = (int)(0.5 + st->sr * (st->rise.dur / 1e3));
+    st->rise.have = 0;
+    if(st->rise.want <= 1) st->rise.incr = 1.0;
+    else st->rise.incr = (REAL)(1.0 / (st->rise.want - 1));
 
-  st->fall.want = (int) (0.5 + st->sr * (st->fall.dur / 1e3));
-  st->fall.have = 0;
-  if (st->fall.want <= 1)
-    st->fall.incr = 1.0;
-  else
-    st->fall.incr = (REAL) (1.0 / (st->fall.want - 1));
+    st->fall.want = (int)(0.5 + st->sr * (st->fall.dur / 1e3));
+    st->fall.have = 0;
+    if(st->fall.want <= 1) st->fall.incr = 1.0;
+    else st->fall.incr = (REAL)(1.0 / (st->fall.want - 1));
 
-  // freq is in Hz
+    // freq is in Hz
 
-  OSCfreq (st->osc.gen) = 2.0 * M_PI * st->osc.freq / st->sr;
-  OSCphase (st->osc.gen) = 0.0;
+    OSCfreq(st->osc.gen) = 2.0 * M_PI * st->osc.freq / st->sr;
+    OSCphase(st->osc.gen) = 0.0;
 
-  st->stage = SpotTone_RISE;
+    st->stage = SpotTone_RISE;
 }
 
 //------------------------------------------------------------------------
 // initiate turn-off
 
 void
-SpotToneOff (SpotToneGen st)
+SpotToneOff(SpotToneGen st)
 {
-  st->stage = SpotTone_FALL;
+    st->stage = SpotTone_FALL;
 }
 
 //------------------------------------------------------------------------
 
 void
-setSpotToneGenVals (SpotToneGen st,
-		    REAL gain, REAL freq, REAL rise, REAL fall)
+setSpotToneGenVals(SpotToneGen st,
+                   REAL gain, REAL freq, REAL rise, REAL fall)
 {
-  st->gain = gain;
-  st->osc.freq = freq;
-  st->rise.dur = rise;
-  st->fall.dur = fall;
+    st->gain = gain;
+    st->osc.freq = freq;
+    st->rise.dur = rise;
+    st->fall.dur = fall;
 }
 
 SpotToneGen
-newSpotToneGen (REAL gain,	// dB
-		REAL freq, REAL rise,	// ms
-		REAL fall,	// ms
-		int size, REAL samplerate)
+newSpotToneGen(REAL gain,  // dB
+               REAL freq, REAL rise,   // ms
+               REAL fall,  // ms
+               int size, REAL samplerate)
 {
 
-  SpotToneGen st = (SpotToneGen) safealloc (1,
-					    sizeof (SpotToneGenDesc),
-					    "SpotToneGenDesc");
+    SpotToneGen st = (SpotToneGen)safealloc(1,
+                                            sizeof(SpotToneGenDesc),
+                                            "SpotToneGenDesc");
 
-  setSpotToneGenVals (st, gain, freq, rise, fall);
-  st->size = size;
-  st->sr = samplerate;
+    setSpotToneGenVals(st, gain, freq, rise, fall);
+    st->size = size;
+    st->sr = samplerate;
 
-  st->osc.gen = newOSC (st->size,
-			ComplexTone,
-			st->osc.freq, 0.0, st->sr, "SpotTone osc");
+    st->osc.gen = newOSC(st->size,
+                         ComplexTone,
+                         st->osc.freq, 0.0, st->sr, "SpotTone osc");
 
-  // overload oscillator buf
-  st->buf = newCXB (st->size, OSCCbase (st->osc.gen), "SpotToneGen buf");
+    // overload oscillator buf
+    st->buf = newCXB(st->size, OSCCbase(st->osc.gen), "SpotToneGen buf");
 
-  return st;
+    return (st);
 }
 
 void
-delSpotToneGen (SpotToneGen st)
+delSpotToneGen(SpotToneGen st)
 {
-  if (st)
+    if(st)
     {
-      delCXB (st->buf);
-      delOSC (st->osc.gen);
-      safefree ((char *) st);
+        delCXB(st->buf);
+        delOSC(st->osc.gen);
+        safefree((char *)st);
     }
 }

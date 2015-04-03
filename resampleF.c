@@ -36,42 +36,42 @@ Bridgewater, NJ 08807
 #include <common.h>
 
 ResStF
-newPolyPhaseFIRF (int filterMemoryBuffLength,
-		  int indexfiltMemBuf,
-		  int interpFactor, int filterPhaseNum, int deciFactor)
+newPolyPhaseFIRF(int filterMemoryBuffLength,
+                 int indexfiltMemBuf,
+                 int interpFactor, int filterPhaseNum, int deciFactor)
 {
-  ResStF tmp;
-  tmp = (ResStF) safealloc (1, sizeof (resamplerF), "PF Resampler");
-  tmp->indexfiltMemBuf = indexfiltMemBuf;
-  tmp->interpFactor = interpFactor;
-  tmp->filterPhaseNum = filterPhaseNum;
-  tmp->deciFactor = deciFactor;
-  tmp->numFiltTaps = 19839;
-  tmp->filterMemoryBuffLength =
-    nblock2 (max (filterMemoryBuffLength, tmp->numFiltTaps));
-  tmp->MASK = tmp->filterMemoryBuffLength - 1;
-  tmp->filterMemoryBuff =
-    (float *) safealloc (tmp->filterMemoryBuffLength, sizeof (REAL),
-			 "Filter buff: resampler");
-  tmp->filter =
-    newFIR_Lowpass_REAL (0.45f, (REAL) interpFactor, tmp->numFiltTaps);
+    ResStF tmp;
+    tmp = (ResStF)safealloc(1, sizeof(resamplerF), "PF Resampler");
+    tmp->indexfiltMemBuf = indexfiltMemBuf;
+    tmp->interpFactor = interpFactor;
+    tmp->filterPhaseNum = filterPhaseNum;
+    tmp->deciFactor = deciFactor;
+    tmp->numFiltTaps = 19839;
+    tmp->filterMemoryBuffLength =
+        nblock2(max(filterMemoryBuffLength, tmp->numFiltTaps));
+    tmp->MASK = tmp->filterMemoryBuffLength - 1;
+    tmp->filterMemoryBuff =
+        (float *)safealloc(tmp->filterMemoryBuffLength, sizeof(REAL),
+                           "Filter buff: resampler");
+    tmp->filter =
+        newFIR_Lowpass_REAL(0.45f, (REAL)interpFactor, tmp->numFiltTaps);
 
-  return tmp;
+    return (tmp);
 }
 
 void
-delPolyPhaseFIRF (ResStF resst)
+delPolyPhaseFIRF(ResStF resst)
 {
-  if (resst)
+    if(resst)
     {
-      delFIR_Lowpass_REAL (resst->filter);
-      safefree ((char *) resst->filterMemoryBuff);
-      safefree ((char *) resst);
+        delFIR_Lowpass_REAL(resst->filter);
+        safefree((char *)resst->filterMemoryBuff);
+        safefree((char *)resst);
     }
 }
 
 void
-PolyPhaseFIRF (ResStF resst)
+PolyPhaseFIRF(ResStF resst)
 /******************************************************************************
 * CALLING PARAMETERS:
 * Name          Use    Description
@@ -125,75 +125,75 @@ PolyPhaseFIRF (ResStF resst)
 *******************************************************************************
 * Type              Name                 Description
 * ____              ____                 ___________                         */
-  int i, j, k, jj;		/* counter variables */
-  float *outptr;
+    int i, j, k, jj;      /* counter variables */
+    float *outptr;
 
-  resst->numOutputSamples = 0;
+    resst->numOutputSamples = 0;
 
 
-  for (i = 0; i < resst->inputArrayLength; i++)
+    for (i = 0; i < resst->inputArrayLength; i++)
     {
 
-      /*
-       * save data in circular buffer
-       */
+        /*
+         * save data in circular buffer
+         */
 
-      resst->filterMemoryBuff[resst->indexfiltMemBuf] = resst->input[i];
-      j = resst->indexfiltMemBuf;
-      jj = j;
+        resst->filterMemoryBuff[resst->indexfiltMemBuf] = resst->input[i];
+        j = resst->indexfiltMemBuf;
+        jj = j;
 
 
-      /*
-       * circular addressing
-       */
+        /*
+         * circular addressing
+         */
 
-      resst->indexfiltMemBuf = (resst->indexfiltMemBuf + 1) & resst->MASK;
+        resst->indexfiltMemBuf = (resst->indexfiltMemBuf + 1) & resst->MASK;
 
-      /*
-       * loop through each filter phase: interpolate then decimate
-       */
+        /*
+         * loop through each filter phase: interpolate then decimate
+         */
 
-      while (resst->filterPhaseNum < resst->interpFactor)
-	{
-	  j = jj;
-	  /*         output[*numOutputSamples] = 0.0; */
-	  outptr = resst->output + resst->numOutputSamples;
-	  *outptr = 0.0;
+        while(resst->filterPhaseNum < resst->interpFactor)
+        {
+            j = jj;
+            /*         output[*numOutputSamples] = 0.0; */
+            outptr = resst->output + resst->numOutputSamples;
+            *outptr = 0.0;
 
-	  /*
-	   * perform convolution
-	   */
+            /*
+             * perform convolution
+             */
 
-	  for (k = resst->filterPhaseNum; k < resst->numFiltTaps;
-	       k += resst->interpFactor)
-	    {
-	      *outptr +=
-		(float) FIRtap (resst->filter,
-				k) * resst->filterMemoryBuff[j];
+            for (k = resst->filterPhaseNum; k < resst->numFiltTaps;
+                 k += resst->interpFactor)
+            {
+                *outptr +=
+                    (float)FIRtap(resst->filter,
+                                  k) * resst->filterMemoryBuff[j];
 
-	      /*
-	       * circular adressing
-	       */
+                /*
+                 * circular adressing
+                 */
 
-	      j = (j + resst->MASK) & resst->MASK;
-	    }
+                j = (j + resst->MASK) & resst->MASK;
+            }
 
-	  /*
-	   * scale the data
-	   */
+            /*
+             * scale the data
+             */
 
-	  *outptr *= (float) resst->interpFactor;
-	  resst->numOutputSamples += 1;
+            *outptr *= (float)resst->interpFactor;
+            resst->numOutputSamples += 1;
 
-	  /*
-	   * increment interpolation phase # by decimation factor
-	   */
+            /*
+             * increment interpolation phase # by decimation factor
+             */
 
-	  resst->filterPhaseNum += (resst->deciFactor);
+            resst->filterPhaseNum += (resst->deciFactor);
 
-	}			/* end while *filterPhaseNum < interpFactor */
+        }           /* end while *filterPhaseNum < interpFactor */
 
-      resst->filterPhaseNum -= resst->interpFactor;
+        resst->filterPhaseNum -= resst->interpFactor;
 
-    }				/* end for inputArrayLength */
-}				/* end PolyPhaseFir */
+    }               /* end for inputArrayLength */
+}               /* end PolyPhaseFir */

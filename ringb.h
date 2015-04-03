@@ -31,26 +31,26 @@
 
 typedef struct
 {
-  char *buf;
-  size_t len;
+    char *buf;
+    size_t len;
 } ringb_data_t;
 
 typedef struct
 {
-  char *buf;
-  size_t wptr, rptr, size, mask;
+    char *buf;
+    size_t wptr, rptr, size, mask;
 } ringb_t;
 
 typedef struct
 {
-  float *buf;
-  size_t len;
+    float *buf;
+    size_t len;
 } ringb_floatdata_t;
 
 typedef struct
 {
-  float *buf;
-  size_t wptr, rptr, size, mask;
+    float *buf;
+    size_t wptr, rptr, size, mask;
 } ringb_float_t;
 
 /* Sets up a ringbuffer data structure of a specified size
@@ -63,7 +63,7 @@ typedef struct
  * 0 otherwise.
  * Freeing is done by freeing the pointer.  */
 
-extern ringb_t *ringb_create_usemem (char *usemem, size_t sz2);
+extern ringb_t* ringb_create_usemem(char *usemem, size_t sz2);
 
 /* Sets up a ringbuffer data structure of a specified size
  * and allocates the required memory.  
@@ -75,14 +75,14 @@ extern ringb_t *ringb_create_usemem (char *usemem, size_t sz2);
  * 0 otherwise.
  * Freeing is done by calling ringb_free. */
 
-extern ringb_t *ringb_create (size_t sz2);
-extern ringb_float_t *ringb_float_create (size_t sz2);
+extern ringb_t* ringb_create(size_t sz2);
+extern ringb_float_t* ringb_float_create(size_t sz2);
 
 /* free the ring buffers that are created without external
 *  storage supplied */
 
-extern void ringb_free (ringb_t * rb);
-extern void ringb_float_free (ringb_float_t * rb);
+extern void ringb_free(ringb_t *rb);
+extern void ringb_float_free(ringb_float_t *rb);
 
 /* Fill a data structure with a description of the current readable
  * data held in the ringbuffer.  This description is returned in a two
@@ -102,7 +102,7 @@ extern void ringb_float_free (ringb_float_t * rb);
  * rb a pointer to the ringbuffer structure.
  * vec a pointer to a 2 element array of ringb_data_t. */
 
-extern void ringb_get_read_vector (const ringb_t * rb, ringb_data_t * vec);
+extern void ringb_get_read_vector(const ringb_t *rb, ringb_data_t *vec);
 
 /* Fill a data structure with a description of the current writable
  * space in the ringbuffer.  The description is returned in a two
@@ -119,7 +119,7 @@ extern void ringb_get_read_vector (const ringb_t * rb, ringb_data_t * vec);
  * rb a pointer to the ringbuffer structure.
  * vec a pointer to a 2 element array of ringb_data_t. */
 
-extern void ringb_get_write_vector (const ringb_t * rb, ringb_data_t * vec);
+extern void ringb_get_write_vector(const ringb_t *rb, ringb_data_t *vec);
 
 /*
  * Read data from the ringbuffer.
@@ -130,8 +130,8 @@ extern void ringb_get_write_vector (const ringb_t * rb, ringb_data_t * vec);
  *
  * return the number of bytes read, which may range from 0 to cnt. */
 
-extern size_t ringb_read (ringb_t * rb, char *dest, size_t cnt);
-extern size_t ringb_float_read (ringb_float_t * rb, float *dest, size_t cnt);
+extern size_t ringb_read(ringb_t *rb, char *dest, size_t cnt);
+extern size_t ringb_float_read(ringb_float_t *rb, float *dest, size_t cnt);
 
 /* Read data from the ringbuffer. Opposed to ringb_read()
  * this function does not move the read pointer. Thus it's
@@ -146,7 +146,7 @@ extern size_t ringb_float_read (ringb_float_t * rb, float *dest, size_t cnt);
  * return the number of bytes read, which may range from 0 to cnt.
  */
 
-extern size_t ringb_peek (ringb_t * rb, char *dest, size_t cnt);
+extern size_t ringb_peek(ringb_t *rb, char *dest, size_t cnt);
 
 /* Advance the read pointer.
  * After data have been read from the ringbuffer using the pointers
@@ -157,20 +157,20 @@ extern size_t ringb_peek (ringb_t * rb, char *dest, size_t cnt);
  * rb a pointer to the ringbuffer structure.
  * cnt the number of bytes read. */
 
-extern void ringb_read_advance (ringb_t * rb, size_t cnt);
+extern void ringb_read_advance(ringb_t *rb, size_t cnt);
 
 /* Return the number of bytes available for reading.
  * rb a pointer to the ringbuffer structure.
  * return the number of bytes available to read. */
 
-extern size_t ringb_read_space (const ringb_t * rb);
-extern size_t ringb_float_read_space (const ringb_float_t * rb);
+extern size_t ringb_read_space(const ringb_t *rb);
+extern size_t ringb_float_read_space(const ringb_float_t *rb);
 
 /* Reset the read and write pointers, making an empty buffer.
  * This is not thread safe. */
 
-extern void ringb_reset (ringb_t * rb);
-extern void ringb_float_reset (ringb_float_t * rb);
+extern void ringb_reset(ringb_t *rb);
+extern void ringb_float_reset(ringb_float_t *rb);
 
 /* Write data into the ringbuffer.
  * rb a pointer to the ringbuffer structure.
@@ -178,9 +178,9 @@ extern void ringb_float_reset (ringb_float_t * rb);
  * cnt the number of bytes(floats) to write.
  * return the number of bytes(floats) written, which may range from 0 to cnt */
 
-extern size_t ringb_write (ringb_t * rb, const char *src, size_t cnt);
-extern size_t ringb_float_write (ringb_float_t * rb, const float *src,
-				 size_t cnt);
+extern size_t ringb_write(ringb_t *rb, const char *src, size_t cnt);
+extern size_t ringb_float_write(ringb_float_t *rb, const float *src,
+                                size_t cnt);
 
 /* Advance the write pointer.
  * After data have been written the ringbuffer using the pointers
@@ -190,21 +190,21 @@ extern size_t ringb_float_write (ringb_float_t * rb, const float *src,
  * rb a pointer to the ringbuffer structure.
  * cnt the number of bytes written. */
 
-extern void ringb_write_advance (ringb_t * rb, size_t cnt);
+extern void ringb_write_advance(ringb_t *rb, size_t cnt);
 
 /* Return the number of bytes(floats) available for writing.
  * rb a pointer to the ringbuffer structure.
  * return the amount of free space (in bytes) available for writing. */
 
-extern size_t ringb_write_space (const ringb_t * rb);
-extern size_t ringb_float_write_space (const ringb_float_t * rb);
+extern size_t ringb_write_space(const ringb_t *rb);
+extern size_t ringb_float_write_space(const ringb_float_t *rb);
 
 /* Fill the ring buffer for nbytes at the beginning with zeros 
  * rb a pointer to the ring buffer structure
  * nbytes the number of bytes to be written */
 
-extern void ringb_clear (ringb_t * rb, size_t nbytes);
-extern void ringb_float_clear (ringb_float_t * rb, size_t nfloats);
+extern void ringb_clear(ringb_t *rb, size_t nbytes);
+extern void ringb_float_clear(ringb_float_t *rb, size_t nfloats);
 
 /* Reset the read and write pointers, making an empty buffer.
  * This is not thread safe. 
@@ -212,7 +212,7 @@ extern void ringb_float_clear (ringb_float_t * rb, size_t nfloats);
  * rb a pointer to the ring buffer structure
  * nbytes the number of bytes to be written */
 
-extern void ringb_restart (ringb_t * rb, size_t nbytes);
-extern void ringb_float_restart (ringb_float_t * rb, size_t nfloats);
+extern void ringb_restart(ringb_t *rb, size_t nbytes);
+extern void ringb_float_restart(ringb_float_t *rb, size_t nfloats);
 
 #endif

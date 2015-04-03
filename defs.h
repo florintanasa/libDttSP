@@ -51,27 +51,27 @@ Bridgewater, NJ 08807
 
 typedef enum _sdrmode
 {
-  LSB,				//  0
-  USB,				//  1
-  DSB,				//  2
-  CWL,				//  3
-  CWU,				//  4
-  FMN,				//  5
-  AM,				//  6
-  DIGU,				//  7
-  SPEC,				//  8
-  DIGL,				//  9
-  SAM,				// 10
-  DRM				// 11
+    LSB,              //  0
+    USB,              //  1
+    DSB,              //  2
+    CWL,              //  3
+    CWU,              //  4
+    FMN,              //  5
+    AM,               //  6
+    DIGU,             //  7
+    SPEC,             //  8
+    DIGL,             //  9
+    SAM,              // 10
+    DRM               // 11
 } SDRMODE;
 
 typedef enum _swchstate {
-  SWCH_FALL,
-  SWCH_STDY,
-  SWCH_RISE
+    SWCH_FALL,
+    SWCH_STDY,
+    SWCH_RISE
 } SWCHSTATE;
 
 typedef enum _trxmode
-{ RX, TX } TRXMODE;
+{RX, TX } TRXMODE;
 
 #endif

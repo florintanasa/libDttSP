@@ -42,7 +42,6 @@ libDttSP_la_SOURCES = \
 	local.h\
 	meter.c\
 	meter.h\
-	metermon.c\
 	noiseblanker.c\
 	noiseblanker.h\
 	oscillator.c\

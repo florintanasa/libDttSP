@@ -53,23 +53,23 @@ Bridgewater, NJ 08807
 
 extern struct _loc
 {
-  char name[MAXPATHLEN];
-  struct
-  {
-    char rcfile[MAXPATHLEN],
-      parm[MAXPATHLEN],
-      meter[MAXPATHLEN], spec[MAXPATHLEN], wisdom[MAXPATHLEN];
-  } path;
-  struct
-  {
-    REAL rate;
-    int size, nrx, spec, comp;
-    SDRMODE mode;
-  } def;
-  struct
-  {
-    int ring;
-  } mult;
+    char name[MAXPATHLEN];
+    struct
+    {
+        char rcfile[MAXPATHLEN],
+        parm[MAXPATHLEN],
+        meter[MAXPATHLEN], spec[MAXPATHLEN], wisdom[MAXPATHLEN];
+    } path;
+    struct
+    {
+        REAL rate;
+        int size, nrx, spec, comp;
+        SDRMODE mode;
+    } def;
+    struct
+    {
+        int ring;
+    } mult;
 } loc;
 
 

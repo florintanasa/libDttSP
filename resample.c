@@ -36,42 +36,42 @@ Bridgewater, NJ 08807
 #include <common.h>
 
 ResSt
-newPolyPhaseFIR (int filterMemoryBuffLength,
-		 int indexfiltMemBuf,
-		 int interpFactor, int filterPhaseNum, int deciFactor)
+newPolyPhaseFIR(int filterMemoryBuffLength,
+                int indexfiltMemBuf,
+                int interpFactor, int filterPhaseNum, int deciFactor)
 {
-  ResSt tmp;
-  tmp = (ResSt) safealloc (1, sizeof (resampler), "PF Resampler");
-  tmp->indexfiltMemBuf = indexfiltMemBuf;
-  tmp->interpFactor = interpFactor;
-  tmp->filterPhaseNum = filterPhaseNum;
-  tmp->deciFactor = deciFactor;
-  tmp->numFiltTaps = 31 * deciFactor;
-  tmp->filterMemoryBuffLength =
-    nblock2 (max (filterMemoryBuffLength, tmp->numFiltTaps));
-  tmp->MASK = tmp->filterMemoryBuffLength - 1;
-  tmp->filterMemoryBuff =
-    (COMPLEX *) safealloc (tmp->filterMemoryBuffLength, sizeof (COMPLEX),
-			   "Filter buff: resampler");
-  tmp->filter =
-    newFIR_Lowpass_REAL (0.45f / (REAL) deciFactor, (REAL) interpFactor,
-			 31 * interpFactor);
-  return tmp;
+    ResSt tmp;
+    tmp = (ResSt)safealloc(1, sizeof(resampler), "PF Resampler");
+    tmp->indexfiltMemBuf = indexfiltMemBuf;
+    tmp->interpFactor = interpFactor;
+    tmp->filterPhaseNum = filterPhaseNum;
+    tmp->deciFactor = deciFactor;
+    tmp->numFiltTaps = 31 * deciFactor;
+    tmp->filterMemoryBuffLength =
+        nblock2(max(filterMemoryBuffLength, tmp->numFiltTaps));
+    tmp->MASK = tmp->filterMemoryBuffLength - 1;
+    tmp->filterMemoryBuff =
+        (COMPLEX *)safealloc(tmp->filterMemoryBuffLength, sizeof(COMPLEX),
+                             "Filter buff: resampler");
+    tmp->filter =
+        newFIR_Lowpass_REAL(0.45f / (REAL)deciFactor, (REAL)interpFactor,
+                            31 * interpFactor);
+    return (tmp);
 }
 
 void
-delPolyPhaseFIR (ResSt resst)
+delPolyPhaseFIR(ResSt resst)
 {
-  if (resst)
+    if(resst)
     {
-      delFIR_Lowpass_REAL (resst->filter);
-      safefree ((char *) resst->filterMemoryBuff);
-      safefree ((char *) resst);
+        delFIR_Lowpass_REAL(resst->filter);
+        safefree((char *)resst->filterMemoryBuff);
+        safefree((char *)resst);
     }
 }
 
 void
-PolyPhaseFIR (ResSt resst)
+PolyPhaseFIR(ResSt resst)
 /******************************************************************************
 * CALLING PARAMETERS:
 * Name          Use    Description
@@ -125,80 +125,80 @@ PolyPhaseFIR (ResSt resst)
 *******************************************************************************
 * Type              Name                 Description
 * ____              ____                 ___________                         */
-  int i, j, k, jj;		/* counter variables */
-  COMPLEX *outptr;
+    int i, j, k, jj;      /* counter variables */
+    COMPLEX *outptr;
 
-  resst->numOutputSamples = 0;
+    resst->numOutputSamples = 0;
 
 
-  for (i = 0; i < resst->inputArrayLength; i++)
+    for (i = 0; i < resst->inputArrayLength; i++)
     {
 
-      /*
-       * save data in circular buffer
-       */
+        /*
+         * save data in circular buffer
+         */
 
-      resst->filterMemoryBuff[resst->indexfiltMemBuf] = resst->input[i];
-      j = resst->indexfiltMemBuf;
-      jj = j;
-
-
-      /*
-       * circular addressing
-       */
-
-      resst->indexfiltMemBuf = (resst->indexfiltMemBuf + 1) & resst->MASK;
-
-      /*
-       * loop through each filter phase: interpolate then decimate
-       */
-
-      while (resst->filterPhaseNum < resst->interpFactor)
-	{
-	  j = jj;
-	  /*         output[*numOutputSamples] = 0.0; */
-	  outptr = resst->output + resst->numOutputSamples;
-	  *outptr = cxzero;
-
-	  /*
-	   * perform convolution
-	   */
-
-	  for (k = resst->filterPhaseNum; k < resst->numFiltTaps;
-	       k += resst->interpFactor)
-	    {
-	      /*            output[*numOutputSamples] += filtcoeff[k]*filterMemoryBuff[j]; */
-	      //*outptr += resst->filtcoeff[k]* resst->filterMemoryBuff[j];
-	      *outptr =
-		Cadd (*outptr,
-		      Cscl (resst->filterMemoryBuff[j],
-			    FIRtap (resst->filter, k)));
+        resst->filterMemoryBuff[resst->indexfiltMemBuf] = resst->input[i];
+        j = resst->indexfiltMemBuf;
+        jj = j;
 
 
-	      /*
-	       * circular adressing
-	       */
+        /*
+         * circular addressing
+         */
 
-	      j = (j + resst->MASK) & resst->MASK;
-	    }
+        resst->indexfiltMemBuf = (resst->indexfiltMemBuf + 1) & resst->MASK;
 
-	  /*
-	   * scale the data
-	   */
+        /*
+         * loop through each filter phase: interpolate then decimate
+         */
 
-	  /*         output[*numOutputSamples]*=(REAL)interpFactor; */
-	  *outptr = Cscl (*outptr, (REAL) resst->interpFactor);
-	  resst->numOutputSamples += 1;
+        while(resst->filterPhaseNum < resst->interpFactor)
+        {
+            j = jj;
+            /*         output[*numOutputSamples] = 0.0; */
+            outptr = resst->output + resst->numOutputSamples;
+            *outptr = cxzero;
 
-	  /*
-	   * increment interpolation phase # by decimation factor
-	   */
+            /*
+             * perform convolution
+             */
 
-	  resst->filterPhaseNum += (resst->deciFactor);
+            for (k = resst->filterPhaseNum; k < resst->numFiltTaps;
+                 k += resst->interpFactor)
+            {
+                /*            output[*numOutputSamples] += filtcoeff[k]*filterMemoryBuff[j]; */
+                //*outptr += resst->filtcoeff[k]* resst->filterMemoryBuff[j];
+                *outptr =
+                    Cadd(*outptr,
+                         Cscl(resst->filterMemoryBuff[j],
+                              FIRtap(resst->filter, k)));
 
-	}			/* end while *filterPhaseNum < interpFactor */
 
-      resst->filterPhaseNum -= resst->interpFactor;
+                /*
+                 * circular adressing
+                 */
 
-    }				/* end for inputArrayLength */
-}				/* end PolyPhaseFir */
+                j = (j + resst->MASK) & resst->MASK;
+            }
+
+            /*
+             * scale the data
+             */
+
+            /*         output[*numOutputSamples]*=(REAL)interpFactor; */
+            *outptr = Cscl(*outptr, (REAL)resst->interpFactor);
+            resst->numOutputSamples += 1;
+
+            /*
+             * increment interpolation phase # by decimation factor
+             */
+
+            resst->filterPhaseNum += (resst->deciFactor);
+
+        }           /* end while *filterPhaseNum < interpFactor */
+
+        resst->filterPhaseNum -= resst->interpFactor;
+
+    }               /* end for inputArrayLength */
+}               /* end PolyPhaseFir */

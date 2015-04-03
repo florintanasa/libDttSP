@@ -39,18 +39,18 @@ Bridgewater, NJ 08807
 
 typedef struct _nbstate
 {
-  CXB sigbuf;			/* Signal Buffer */
-  REAL threshold;		/* Noise Blanker Threshold */
-  COMPLEX average_sig;
-  REAL average_mag;
-  COMPLEX delay[8];
-  int delayindex;
-  int sigindex;
-  int hangtime;
+    CXB sigbuf;           /* Signal Buffer */
+    REAL threshold;       /* Noise Blanker Threshold */
+    COMPLEX average_sig;
+    REAL average_mag;
+    COMPLEX delay[8];
+    int delayindex;
+    int sigindex;
+    int hangtime;
 } *NB, nbstate;
 
-extern NB new_noiseblanker (CXB sigbuf, REAL threshold);
-extern void del_nb (NB nb);
-extern void noiseblanker (NB nb);
-extern void SDROMnoiseblanker (NB nb);
+extern NB new_noiseblanker(CXB sigbuf, REAL threshold);
+extern void del_nb(NB nb);
+extern void noiseblanker(NB nb);
+extern void SDROMnoiseblanker(NB nb);
 #endif

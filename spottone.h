@@ -50,32 +50,32 @@ Bridgewater, NJ 08807
 
 typedef struct _spot_tone_gen
 {
-  REAL curr, gain, mul, scl, sr;
-  struct
-  {
-    REAL freq;
-    OSC gen;
-  } osc;
-  struct
-  {
-    REAL dur, incr;
-    int want, have;
-  } rise, fall;
-  int size, stage;
-  CXB buf;
+    REAL curr, gain, mul, scl, sr;
+    struct
+    {
+        REAL freq;
+        OSC gen;
+    } osc;
+    struct
+    {
+        REAL dur, incr;
+        int want, have;
+    } rise, fall;
+    int size, stage;
+    CXB buf;
 } SpotToneGenDesc, *SpotToneGen;
 
-extern SpotToneGen newSpotToneGen (REAL gain,	// dB
-				   REAL freq,	// Hz
-				   REAL rise,	// msec
-				   REAL fall,	// msec
-				   int size,	// buflen
-				   REAL samplerate);
-extern void delSpotToneGen (SpotToneGen gen);
-extern void setSpotToneGenVals (SpotToneGen gen,
-				REAL gain, REAL freq, REAL rise, REAL fall);
-extern void SpotToneOn (SpotToneGen gen);
-extern void SpotToneOff (SpotToneGen gen);
-extern BOOLEAN SpotTone (SpotToneGen gen);
+extern SpotToneGen newSpotToneGen(REAL gain,   // dB
+                                  REAL freq,   // Hz
+                                  REAL rise,   // msec
+                                  REAL fall,   // msec
+                                  int size,    // buflen
+                                  REAL samplerate);
+extern void delSpotToneGen(SpotToneGen gen);
+extern void setSpotToneGenVals(SpotToneGen gen,
+                               REAL gain, REAL freq, REAL rise, REAL fall);
+extern void SpotToneOn(SpotToneGen gen);
+extern void SpotToneOff(SpotToneGen gen);
+extern BOOLEAN SpotTone(SpotToneGen gen);
 
 #endif

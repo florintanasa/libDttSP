@@ -62,15 +62,15 @@ This is derived from equ.xmms:
 
 typedef struct _eq
 {
-  CXB data;
-  FiltOvSv p;
-  CXB in, out;
-  COMPLEX num[9], den[6];
-  BOOLEAN notchflag;
+    CXB data;
+    FiltOvSv p;
+    CXB in, out;
+    COMPLEX num[9], den[6];
+    BOOLEAN notchflag;
 } eq, *EQ;
 
 
-extern EQ new_EQ (CXB d, REAL samplerate, int pbits);
-extern void graphiceq (EQ a);
+extern EQ new_EQ(CXB d, REAL samplerate, int pbits);
+extern void graphiceq(EQ a);
 
 #endif /* #define GRPHEQ_H */

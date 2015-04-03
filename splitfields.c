@@ -36,59 +36,57 @@ Bridgewater, NJ 08807
 static char *_white = " \t\n";
 
 SPLIT
-newSPLIT (void)
+newSPLIT(void)
 {
-	return (SPLIT) safealloc (1, sizeof (splitfld), "splitfield");
+    return ((SPLIT)safealloc(1, sizeof(splitfld), "splitfield"));
 }
 
 void
-delSPLIT (SPLIT s)
+delSPLIT(SPLIT s)
 {
-	if (s)
-		free ((char *) s);
+    if(s) free((char *)s);
 }
 
-char *
-F (SPLIT s, int i)
+char*
+F(SPLIT s, int i)
 {
-	return s->f[i];
+    return (s->f[i]);
 }
 
-char **
-Fptr (SPLIT s, int i)
+char**
+Fptr(SPLIT s, int i)
 {
-	return &(s->f[i]);
-}
-
-int
-NF (SPLIT s)
-{
-	return s->n;
+    return (&(s->f[i]));
 }
 
 int
-splitonto (SPLIT s, char *str, char *delim, char **fld, int fmx)
+NF(SPLIT s)
 {
-	int i = 0;
-	char *p = strtok (str, delim);
-	while (p)
+    return (s->n);
+}
+
+int
+splitonto(SPLIT s, char *str, char *delim, char **fld, int fmx)
+{
+    int i = 0;
+    char *p = strtok(str, delim);
+    while(p)
     {
-		fld[i] = p;
-		if (++i >= fmx)
-			break;
-		p = strtok (0, delim);
+        fld[i] = p;
+        if(++i >= fmx) break;
+        p = strtok(0, delim);
     }
-	return i;
+    return (i);
 }
 
 int
-spliton (SPLIT s, char *str, char *delim)
+spliton(SPLIT s, char *str, char *delim)
 {
-	return (s->n = splitonto (s, str, delim, s->f, MAXFLD));
+    return (s->n = splitonto(s, str, delim, s->f, MAXFLD));
 }
 
 void
-split (SPLIT s, char *str)
+split(SPLIT s, char *str)
 {
-	spliton (s, str, _white);
+    spliton(s, str, _white);
 }

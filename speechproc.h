@@ -42,14 +42,14 @@ Bridgewater, NJ 08807
 
 typedef struct _speechprocessor
 {
-  int size;
-  RLB CG;
-  CXB SpeechProcessorBuffer;
-  REAL LastCG, K, MaxGain, fac;
+    int size;
+    RLB CG;
+    CXB SpeechProcessorBuffer;
+    REAL LastCG, K, MaxGain, fac;
 } speech_proc, *SpeechProc;
 
-extern SpeechProc newSpeechProc (REAL, REAL, COMPLEX *, int);
-extern void delSpeechProc (SpeechProc);
-extern void SpeechProcessor (SpeechProc);
+extern SpeechProc newSpeechProc(REAL, REAL, COMPLEX *, int);
+extern void delSpeechProc(SpeechProc);
+extern void SpeechProcessor(SpeechProc);
 
 #endif

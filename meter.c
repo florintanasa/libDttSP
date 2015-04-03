@@ -38,7 +38,7 @@ Bridgewater, NJ 08807
 snap_meter (MeterBlock * mb, int label)
 {
   memcpy ((char *) mb->snap.rx,
-	  (char *) mb->rx.val, MAXRX * RXMETERPTS * sizeof (REAL));
+      (char *) mb->rx.val, MAXRX * RXMETERPTS * sizeof (REAL));
   memcpy ((char *) &mb->snap.tx, (char *) &mb->tx.val, sizeof (REAL));
   mb->label = label;
 }*/

@@ -37,18 +37,18 @@ Bridgewater, NJ 08807
 #include <common.h>
 typedef struct resampleF_state
 {
-  REAL *input, *output, *filterMemoryBuff;
-  RealFIR filter;
-  int filterMemoryBuffLength, inputArrayLength, numFiltTaps,
+    REAL *input, *output, *filterMemoryBuff;
+    RealFIR filter;
+    int filterMemoryBuffLength, inputArrayLength, numFiltTaps,
     indexfiltMemBuf, interpFactor, filterPhaseNum, deciFactor,
     numOutputSamples;
-  int MASK;
+    int MASK;
 } resamplerF, *ResStF;
 
-extern ResStF newPolyPhaseFIRF (int filterMemoryBuffLength,
-					  int indexfiltMemBuf,
-					  int interpFactor,
-					  int filterPhaseNum, int deciFactor);
-extern void PolyPhaseFIRF (ResStF resst);
-extern void delpolyPhaseFIRF (ResStF resst);
+extern ResStF newPolyPhaseFIRF(int filterMemoryBuffLength,
+                               int indexfiltMemBuf,
+                               int interpFactor,
+                               int filterPhaseNum, int deciFactor);
+extern void PolyPhaseFIRF(ResStF resst);
+extern void delpolyPhaseFIRF(ResStF resst);
 #endif

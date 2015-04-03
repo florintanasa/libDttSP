@@ -58,20 +58,20 @@ Bridgewater, NJ 08807
 
 typedef enum
 {
-  SIGNAL_STRENGTH,
-  AVG_SIGNAL_STRENGTH,
-  ADC_REAL,
-  ADC_IMAG,
-  AGC_GAIN,
-  MIC,
-  PWR,
-  ALC,
-  EQtap,
-  LEVELER,
-  COMP,
-  CPDR,
-  ALC_G,
-  LVL_G
+    SIGNAL_STRENGTH,
+    AVG_SIGNAL_STRENGTH,
+    ADC_REAL,
+    ADC_IMAG,
+    AGC_GAIN,
+    MIC,
+    PWR,
+    ALC,
+    EQtap,
+    LEVELER,
+    COMP,
+    CPDR,
+    ALC_G,
+    LVL_G
 } METERTYPE;
 
 #define RXMETERPTS (5)
@@ -82,42 +82,42 @@ typedef enum
 
 typedef enum
 {
-	RX_SIGNAL_STRENGTH,
-	RX_AVG_SIGNAL_STRENGTH,
-	RX_ADC_REAL,
-	RX_ADC_IMAG,
-	RX_AGC_GAIN
+    RX_SIGNAL_STRENGTH,
+    RX_AVG_SIGNAL_STRENGTH,
+    RX_ADC_REAL,
+    RX_ADC_IMAG,
+    RX_AGC_GAIN
 } RXMETERTYPE;
 
 typedef enum
 {
-  TX_MIC,
-  TX_PWR,
-  TX_ALC,
-  TX_EQtap,
-  TX_LEVELER,
-  TX_COMP,
-  TX_CPDR,
-  TX_ALC_G,
-  TX_LVL_G
+    TX_MIC,
+    TX_PWR,
+    TX_ALC,
+    TX_EQtap,
+    TX_LEVELER,
+    TX_COMP,
+    TX_CPDR,
+    TX_ALC_G,
+    TX_LVL_G
 } TXMETERTYPE;
 
 
 
 typedef struct _meter_block
 {
-  BOOLEAN flag;
-  int label;
-  struct
-  {
-    REAL val[MAXRX][RXMETERPTS];
-	RXMETERTYPE mode[MAXRX];
-  } rx;
-  struct
-	{	
-		REAL val[TXMETERPTS];
-		TXMETERTYPE mode;
-	} tx;
+    BOOLEAN flag;
+    int label;
+    struct
+    {
+        REAL val[MAXRX][RXMETERPTS];
+        RXMETERTYPE mode[MAXRX];
+    } rx;
+    struct
+    {
+        REAL val[TXMETERPTS];
+        TXMETERTYPE mode;
+    } tx;
 } METERBlock;
 
 #endif

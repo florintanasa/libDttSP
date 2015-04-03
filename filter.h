@@ -50,35 +50,35 @@ Bridgewater, NJ 08807
 
 typedef enum
 {
-  FIR_Undef, FIR_Lowpass, FIR_Bandpass, FIR_Highpass, FIR_Hilbert,
-  FIR_Bandstop
+    FIR_Undef, FIR_Lowpass, FIR_Bandpass, FIR_Highpass, FIR_Hilbert,
+    FIR_Bandstop
 } FIR_response_type;
 
 typedef enum
-{ FIR_Even, FIR_Odd } FIR_parity_type;
+{FIR_Even, FIR_Odd } FIR_parity_type;
 
 typedef struct _real_FIR
 {
-  REAL *coef;
-  int size;
-  FIR_response_type type;
-  BOOLEAN cplx;
-  struct
-  {
-    REAL lo, hi;
-  } freq;
+    REAL *coef;
+    int size;
+    FIR_response_type type;
+    BOOLEAN cplx;
+    struct
+    {
+        REAL lo, hi;
+    } freq;
 } RealFIRDesc, *RealFIR;
 
 typedef struct _complex_FIR
 {
-  COMPLEX *coef;
-  int size;
-  FIR_response_type type;
-  BOOLEAN cplx;
-  struct
-  {
-    REAL lo, hi;
-  } freq;
+    COMPLEX *coef;
+    int size;
+    FIR_response_type type;
+    BOOLEAN cplx;
+    struct
+    {
+        REAL lo, hi;
+    } freq;
 } ComplexFIRDesc, *ComplexFIR;
 
 #define FIRcoef(p) ((p)->coef)
@@ -101,22 +101,22 @@ typedef struct _complex_FIR
 #define delFIR_Bandstop_REAL(p) delFIR_REAL(p)
 #define delFIR_Bandstop_COMPLEX(p) delFIR_COMPLEX(p)
 
-extern RealFIR newFIR_REAL (int size, char *tag);
-extern ComplexFIR newFIR_COMPLEX (int size, char *tag);
-extern void delFIR_REAL (RealFIR p);
-extern void delFIR_COMPLEX (ComplexFIR p);
-extern RealFIR newFIR_Lowpass_REAL (REAL cutoff, REAL sr, int size);
-extern ComplexFIR newFIR_Lowpass_COMPLEX (REAL cutoff, REAL sr, int size);
-extern RealFIR newFIR_Bandpass_REAL (REAL lo, REAL hi, REAL sr, int size);
-extern ComplexFIR newFIR_Bandpass_COMPLEX (REAL lo, REAL hi, REAL sr,
-					   int size);
-extern RealFIR newFIR_Highpass_REAL (REAL cutoff, REAL sr, int size);
-extern ComplexFIR newFIR_Highpass_COMPLEX (REAL cutoff, REAL sr, int size);
-extern RealFIR newFIR_Hilbert_REAL (REAL lo, REAL hi, REAL sr, int size);
-extern ComplexFIR newFIR_Hilbert_COMPLEX (REAL lo, REAL hi, REAL sr,
-					  int size);
-extern RealFIR newFIR_Bandstop_REAL (REAL lo, REAL hi, REAL sr, int size);
-extern ComplexFIR newFIR_Bandstop_COMPLEX (REAL lo, REAL hi, REAL sr,
-					   int size);
+extern RealFIR newFIR_REAL(int size, char *tag);
+extern ComplexFIR newFIR_COMPLEX(int size, char *tag);
+extern void delFIR_REAL(RealFIR p);
+extern void delFIR_COMPLEX(ComplexFIR p);
+extern RealFIR newFIR_Lowpass_REAL(REAL cutoff, REAL sr, int size);
+extern ComplexFIR newFIR_Lowpass_COMPLEX(REAL cutoff, REAL sr, int size);
+extern RealFIR newFIR_Bandpass_REAL(REAL lo, REAL hi, REAL sr, int size);
+extern ComplexFIR newFIR_Bandpass_COMPLEX(REAL lo, REAL hi, REAL sr,
+                                          int size);
+extern RealFIR newFIR_Highpass_REAL(REAL cutoff, REAL sr, int size);
+extern ComplexFIR newFIR_Highpass_COMPLEX(REAL cutoff, REAL sr, int size);
+extern RealFIR newFIR_Hilbert_REAL(REAL lo, REAL hi, REAL sr, int size);
+extern ComplexFIR newFIR_Hilbert_COMPLEX(REAL lo, REAL hi, REAL sr,
+                                         int size);
+extern RealFIR newFIR_Bandstop_REAL(REAL lo, REAL hi, REAL sr, int size);
+extern ComplexFIR newFIR_Bandstop_COMPLEX(REAL lo, REAL hi, REAL sr,
+                                          int size);
 
 #endif

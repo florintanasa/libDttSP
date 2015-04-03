@@ -60,8 +60,8 @@ Bridgewater, NJ 08807
 #include <iosdr.h>
 struct timezone
 {
-  int tz_minuteswest;		/* minutes W of Greenwich */
-  int tz_dsttime;		/* type of dst correction */
+    int tz_minuteswest;       /* minutes W of Greenwich */
+    int tz_dsttime;       /* type of dst correction */
 };
 
 #endif // _fromsys_h

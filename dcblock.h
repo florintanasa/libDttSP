@@ -50,17 +50,17 @@ Bridgewater, NJ 08807
 
 typedef struct _dcblocker
 {
-  struct
-  {
-    REAL inp[BLKMEM], out[BLKMEM];
-  } old;
-  int lev;
-  CXB buf;
+    struct
+    {
+        REAL inp[BLKMEM], out[BLKMEM];
+    } old;
+    int lev;
+    CXB buf;
 } DCBlockerInfo, *DCBlocker;
 
-extern void DCBlock (DCBlocker dcb);
-extern void resetDCBlocker (DCBlocker dcb, int lev);
-extern DCBlocker newDCBlocker (int lev, CXB buf);
-extern void delDCBlocker (DCBlocker dcb);
+extern void DCBlock(DCBlocker dcb);
+extern void resetDCBlocker(DCBlocker dcb, int lev);
+extern DCBlocker newDCBlocker(int lev, CXB buf);
+extern void delDCBlocker(DCBlocker dcb);
 
 #endif

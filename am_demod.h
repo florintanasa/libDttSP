@@ -18,46 +18,46 @@
 #include <oscillator.h>
 
 typedef enum _ammode
-{ AMdet, SAMdet } AMMode;
+{AMdet, SAMdet } AMMode;
 typedef struct _am_demod
 {
-  int size;
-  CXB ibuf, obuf;
+    int size;
+    CXB ibuf, obuf;
 
-  struct
-  {
-    REAL alpha, beta, fast_alpha;
     struct
     {
-      REAL f, l, h;
-    } freq;
-    REAL phs;
+        REAL alpha, beta, fast_alpha;
+        struct
+        {
+            REAL f, l, h;
+        } freq;
+        REAL phs;
+        struct
+        {
+            REAL alpha;
+        } iir;
+        COMPLEX delay;
+    } pll;
+
     struct
     {
-      REAL alpha;
-    } iir;
-    COMPLEX delay;
-  } pll;
+        REAL curr, prev;
+    } lock;
 
-  struct
-  {
-    REAL curr, prev;
-  } lock;
-
-  REAL dc;
-  REAL smooth;
-  AMMode mode;
+    REAL dc;
+    REAL smooth;
+    AMMode mode;
 } AMDDesc, *AMD;
 
-extern void AMDemod (AMD am);
-extern AMD newAMD (REAL samprate,
-		   REAL f_initial,
-		   REAL f_lobound,
-		   REAL f_hibound,
-		   REAL f_bandwid,
-		   int size,
-		   COMPLEX * ivec, COMPLEX * ovec, AMMode mode, char *tag);
-extern void delAMD (AMD am);
+extern void AMDemod(AMD am);
+extern AMD newAMD(REAL samprate,
+                  REAL f_initial,
+                  REAL f_lobound,
+                  REAL f_hibound,
+                  REAL f_bandwid,
+                  int size,
+                  COMPLEX *ivec, COMPLEX *ovec, AMMode mode, char *tag);
+extern void delAMD(AMD am);
 
 #ifndef TWOPI
 #define TWOPI (2.0*M_PI)

@@ -42,16 +42,16 @@ Bridgewater, NJ 08807
 
 typedef struct _splitfld
 {
-  char *f[MAXFLD];
-  int n;
+    char *f[MAXFLD];
+    int n;
 } splitfld, *SPLIT;
 
-extern char *F (SPLIT, int);
-extern char **Fptr (SPLIT, int);
-extern int NF (SPLIT);
+extern char* F(SPLIT, int);
+extern char** Fptr(SPLIT, int);
+extern int NF(SPLIT);
 
-extern int splitonto (SPLIT, char *, char *, char **, int);
-extern int spliton (SPLIT, char *, char *);
-extern void split (SPLIT, char *);
+extern int splitonto(SPLIT, char *, char *, char **, int);
+extern int spliton(SPLIT, char *, char *);
+extern void split(SPLIT, char *);
 
 #endif

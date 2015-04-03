@@ -56,23 +56,23 @@ Bridgewater, NJ 08807
 
 typedef enum _windowtype
 {
-  RECTANGULAR_WINDOW,
-  HANNING_WINDOW,
-  WELCH_WINDOW,
-  PARZEN_WINDOW,
-  BARTLETT_WINDOW,
-  HAMMING_WINDOW,
-  BLACKMAN2_WINDOW,
-  BLACKMAN3_WINDOW,
-  BLACKMAN4_WINDOW,
-  EXPONENTIAL_WINDOW,
-  RIEMANN_WINDOW,
-  BLACKMANHARRIS_WINDOW,
-  NUTTALL_WINDOW,
+    RECTANGULAR_WINDOW,
+    HANNING_WINDOW,
+    WELCH_WINDOW,
+    PARZEN_WINDOW,
+    BARTLETT_WINDOW,
+    HAMMING_WINDOW,
+    BLACKMAN2_WINDOW,
+    BLACKMAN3_WINDOW,
+    BLACKMAN4_WINDOW,
+    EXPONENTIAL_WINDOW,
+    RIEMANN_WINDOW,
+    BLACKMANHARRIS_WINDOW,
+    NUTTALL_WINDOW,
 } Windowtype;
 
-extern REAL *makewindow (Windowtype type, int size, REAL * window);
+extern REAL* makewindow(Windowtype type, int size, REAL *window);
 //extern char *window_name(int n);
-extern REAL sqr (REAL x);
+extern REAL sqr(REAL x);
 
 #endif

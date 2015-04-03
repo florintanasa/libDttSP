@@ -46,29 +46,29 @@ Bridgewater, NJ 08807
 
 typedef struct _filt_ov_sav
 {
-  int buflen, fftlen;
-  COMPLEX *zfvec, *zivec, *zovec, *zrvec;
-  fftwf_plan pfwd, pinv;
-  REAL scale;
+    int buflen, fftlen;
+    COMPLEX *zfvec, *zivec, *zovec, *zrvec;
+    fftwf_plan pfwd, pinv;
+    REAL scale;
 } filt_ov_sv, *FiltOvSv;
 
-extern FiltOvSv newFiltOvSv (COMPLEX * coefs, int ncoef, int pbits);
-extern void delFiltOvSv (FiltOvSv p);
+extern FiltOvSv newFiltOvSv(COMPLEX *coefs, int ncoef, int pbits);
+extern void delFiltOvSv(FiltOvSv p);
 
-extern COMPLEX *FiltOvSv_initpoint (FiltOvSv pflt);
-extern int FiltOvSv_initsize (FiltOvSv pflt);
+extern COMPLEX* FiltOvSv_initpoint(FiltOvSv pflt);
+extern int FiltOvSv_initsize(FiltOvSv pflt);
 
-extern COMPLEX *FiltOvSv_fetchpoint (FiltOvSv pflt);
-extern int FiltOvSv_fetchsize (FiltOvSv pflt);
+extern COMPLEX* FiltOvSv_fetchpoint(FiltOvSv pflt);
+extern int FiltOvSv_fetchsize(FiltOvSv pflt);
 
-extern COMPLEX *FiltOvSv_storepoint (FiltOvSv pflt);
-extern int FiltOvSv_storesize (FiltOvSv pflt);
+extern COMPLEX* FiltOvSv_storepoint(FiltOvSv pflt);
+extern int FiltOvSv_storesize(FiltOvSv pflt);
 
-extern COMPLEX *FiltOvSv_fetchpt_par (FiltOvSv pflt, int parity);
-extern COMPLEX *FiltOvSv_storept_par (FiltOvSv pflt, int parity);
+extern COMPLEX* FiltOvSv_fetchpt_par(FiltOvSv pflt, int parity);
+extern COMPLEX* FiltOvSv_storept_par(FiltOvSv pflt, int parity);
 
-extern void filter_OvSv (FiltOvSv pflt);
-extern void filter_OvSv_par (FiltOvSv pflt);
-extern void reset_OvSv (FiltOvSv pflt);
+extern void filter_OvSv(FiltOvSv pflt);
+extern void filter_OvSv_par(FiltOvSv pflt);
+extern void reset_OvSv(FiltOvSv pflt);
 
 #endif

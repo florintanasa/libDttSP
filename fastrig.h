@@ -93,10 +93,10 @@ Bridgewater, NJ 08807
 
 #if (TRIG_SPEED != 0)
 
-extern void InitSPEEDTRIG (void);
-extern REAL fast_sin (REAL);
-extern REAL fast_cos (REAL);
-extern REAL fast_atan2 (REAL, REAL);
+extern void InitSPEEDTRIG(void);
+extern REAL fast_sin(REAL);
+extern REAL fast_cos(REAL);
+extern REAL fast_atan2(REAL, REAL);
 
 #endif
 #endif

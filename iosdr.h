@@ -1,1 +1,1 @@
-extern int write (int, void *, unsigned int);
+extern int write(int, void *, unsigned int);

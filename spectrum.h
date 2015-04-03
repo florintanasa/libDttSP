@@ -69,23 +69,23 @@ Bridgewater, NJ 08807
 
 typedef struct _spec_block
 {
-  BOOLEAN flag;
-  int label;
-  CXB accum, timebuf, freqbuf;
-  int fill, buflen, rxk, scale, size, type, mask;
-  Windowtype wintype;
-  REAL *window;
-  float *output, *oscope;
-  int planbits;
-  fftwf_plan plan;
-  BOOLEAN polyphase;
+    BOOLEAN flag;
+    int label;
+    CXB accum, timebuf, freqbuf;
+    int fill, buflen, rxk, scale, size, type, mask;
+    Windowtype wintype;
+    REAL *window;
+    float *output, *oscope;
+    int planbits;
+    fftwf_plan plan;
+    BOOLEAN polyphase;
 } SpecBlock;
 
-extern void init_spectrum (SpecBlock * sb);
-extern void reinit_spectrum (SpecBlock * sb);
-extern void snap_spectrum (SpecBlock * sb, int label);
-extern void snap_scope (SpecBlock * sb, int label);
-extern void compute_spectrum (SpecBlock * sb);
-extern void finish_spectrum (SpecBlock * sb);
+extern void init_spectrum(SpecBlock *sb);
+extern void reinit_spectrum(SpecBlock *sb);
+extern void snap_spectrum(SpecBlock *sb, int label);
+extern void snap_scope(SpecBlock *sb, int label);
+extern void compute_spectrum(SpecBlock *sb);
+extern void finish_spectrum(SpecBlock *sb);
 
 #endif

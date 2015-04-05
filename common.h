@@ -71,6 +71,7 @@ Bridgewater, NJ 08807
 #include <sched.h>
 #include <semaphore.h>
 #include <malloc.h>
+#include <errno.h>
 
 /*End Windows differences */
 

@@ -1681,7 +1681,8 @@ sendcommand(char *buffer)
 {
     if(strcmp(buffer, oldcommand) != 0)
     {
-        fwrite(buffer, strlen(buffer), 1, top.parm.fp);
+        int num_written = 0;
+        num_written=fwrite(buffer, 1, strlen(buffer), top.parm.fp);
     }
     strcpy(oldcommand, buffer);
 }

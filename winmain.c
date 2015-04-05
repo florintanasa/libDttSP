@@ -121,7 +121,7 @@ process_updates_thread(void)
     {
         unsigned long NumBytesRead;
         pthread_testcancel();
-        while(0 != (NumBytesRead = fread(top.parm.buff, 4096, 1, top.parm.fd)))
+        while(0 != (NumBytesRead = fread(top.parm.buff, 1, 4096, top.parm.fd)))
         {
             top.parm.buff[NumBytesRead] = 0;
 
@@ -482,22 +482,22 @@ run_swch (void)
         ringb_float_free(top.jack.ring.i.r);
         ringb_float_free(top.jack.ring.i.l);
 
-        fclose(top.parm.fp);
-        fclose(top.parm.fd);
-        unlink(top.parm.path);
+        if(NULL!= top.parm.fp) fclose(top.parm.fp);
+        if(NULL!= top.parm.fd) fclose(top.parm.fd);
+        if(NULL!= top.parm.path) unlink(top.parm.path);
 
         if(uni.meter.flag)
         {
-            fclose(top.meas.mtr.fp);
-            fclose(top.meas.mtr.fd);
-            unlink(top.meas.mtr.path);
+            if(NULL!= top.meas.mtr.fp) fclose(top.meas.mtr.fp);
+            if(NULL!= top.meas.mtr.fd) fclose(top.meas.mtr.fd);
+            if(NULL!= top.meas.mtr.path) unlink(top.meas.mtr.path);
         }
 
         if(uni.spec.flag)
         {
-            fclose(top.meas.spec.fp);
-            fclose(top.meas.spec.fd);
-            unlink(top.meas.spec.path);
+            if(NULL!= top.meas.spec.fp) fclose(top.meas.spec.fp);
+            if(NULL!= top.meas.spec.fd) fclose(top.meas.spec.fd);
+            if(NULL!= top.meas.spec.path) unlink(top.meas.spec.path);
         }
         destroy_workspace();
     }
@@ -540,14 +540,14 @@ setup_switching (void)
         int rslt = mkfifo(top.parm.path, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH); // create fifo SDRcommands+pid
         if(0 != rslt)
         {
-            perror("Update server pipe setup failed");
+            fprintf  (stderr,"Update server pipe setup failed, \"%s\", %s",top.parm.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);
         top.parm.fd = fopen(top.parm.path, "r");
         if(NULL == top.parm.fd)
         {
-            perror("Connecting the server to the Update pipe failed");
+            fprintf  (stderr,"Connecting the server to the Update pipe failed, \"%s\", %s",top.parm.path, strerror(errno));
         }
         pthread_exit(0);
     }
@@ -559,7 +559,7 @@ setup_switching (void)
         top.parm.fp = fopen(top.parm.path, "w");
         if(NULL == top.parm.fp)
         {
-            perror("The Update Client Open Failed");
+            fprintf(stderr,"The Update Client Open Failed, \"%s\", %s",top.parm.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);
@@ -573,14 +573,14 @@ setup_switching (void)
         int rslt = mkfifo(top.meas.mtr.path, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if(0 != rslt)
         {
-            perror("Meter server pipe setup failed");
+            fprintf(stderr,"Meter server pipe setup failed, \"%s\", %s",top.meas.mtr.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);
         top.meas.mtr.fd = fopen(top.meas.mtr.path, "r");
         if(NULL == top.meas.mtr.fd)
         {
-            perror("Connecting the server to the Meter pipe failed");
+            fprintf(stderr,"Connecting the server to the Meter pipe failed, \"%s\", %s",top.meas.mtr.path, strerror(errno));
         }
         pthread_exit(0);
     }
@@ -591,7 +591,7 @@ setup_switching (void)
         top.meas.mtr.fp = fopen(top.meas.mtr.path, "w");
         if(NULL == top.meas.mtr.fp)
         {
-            perror("The Meter Client Open Failed");
+            fprintf(stderr,"The Meter Client Open Failed, \"%s\", %s",top.meas.mtr.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);
@@ -605,14 +605,14 @@ setup_switching (void)
         int rslt = mkfifo(top.meas.spec.path, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
         if(0 != rslt)
         {
-            perror("Spectrum server pipe setup failed");
+            fprintf(stderr,"Spectrum server pipe setup failed, \"%s\", %s",top.meas.spec.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);
         top.meas.spec.fd = fopen(top.meas.spec.path, "r");
         if(NULL == top.meas.spec.fd)
         {
-            perror("Connecting the server to the Spectrum pipe failed");
+            fprintf(stderr,"Connecting the server to the Spectrum pipe failed, \"%s\", %s",top.meas.spec.path, strerror(errno));
         }
         pthread_exit(0);
     }
@@ -623,7 +623,7 @@ setup_switching (void)
         top.meas.spec.fp = fopen(top.meas.spec.path, "w");
         if(NULL == top.meas.spec.fp)
         {
-            perror("The The Spectrum Client Open Failed");
+            fprintf(stderr,"The The Spectrum Client Open Failed, \"%s\", %s",top.meas.spec.path, strerror(errno));
         }
 
         sem_post(&setup_update_sem);

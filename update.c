@@ -1683,6 +1683,7 @@ sendcommand(char *buffer)
     {
         int num_written = 0;
         num_written=fwrite(buffer, 1, strlen(buffer), top.parm.fp);
+        fflush(top.parm.fp);
     }
     strcpy(oldcommand, buffer);
 }

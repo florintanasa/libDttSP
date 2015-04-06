@@ -121,11 +121,11 @@ process_updates_thread(void)
     {
         unsigned long NumBytesRead;
         pthread_testcancel();
-        while(0 != (NumBytesRead = fread(top.parm.buff, 1, 4096, top.parm.fd)))
+        while(NULL != fgets(top.parm.buff, 4095, top.parm.fd))
         {
-            top.parm.buff[NumBytesRead] = 0;
-
-            if(NumBytesRead != 0) do_update(top.parm.buff, top.verbose ? stderr : 0);
+            top.parm.buff[4095] = 0;
+            fprintf(stderr,"%s:%d %s\n",__FUNCTION__,__LINE__,top.parm.buff);
+            do_update(top.parm.buff, top.verbose ? stderr : 0);
         }
     }
 

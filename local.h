@@ -43,12 +43,14 @@ Bridgewater, NJ 08807
 #define _local_h
 
 #include <common.h>
-//\\.\pipe\pipename
+
 #define RCBASE ".DttSPrc"
-#define PARMPATH  "\\\\.\\pipe\\SDRcommands"
-#define METERPATH "\\\\.\\pipe\\SDRmeter"
-#define SPECPATH  "\\\\.\\pipe\\SDRspectrum"
-#define WISDOMPATH ".\\wisdom"
+
+//./pipe-pipename
+#define PARMPATH  "./pipe-SDRcommands"
+#define METERPATH "./pipe-SDRmeter"
+#define SPECPATH  "./pipe-SDRspectrum"
+#define WISDOMPATH "./wisdom"
 
 
 extern struct _loc

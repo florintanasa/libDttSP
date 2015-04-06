@@ -47,9 +47,9 @@ Bridgewater, NJ 08807
 #define RCBASE ".DttSPrc"
 
 //./pipe-pipename
-#define PARMPATH  "./pipe-SDRcommands"
-#define METERPATH "./pipe-SDRmeter"
-#define SPECPATH  "./pipe-SDRspectrum"
+#define PARMPATH  "/dev/shm/SDRcommands"
+#define SPECPATH  "/dev/shm/SDRspectrum"
+#define METERPATH "/dev/shm/SDRmeter"
 #define WISDOMPATH "./wisdom"
 
 

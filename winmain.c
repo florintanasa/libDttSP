@@ -124,7 +124,6 @@ process_updates_thread(void)
         while(NULL != fgets(top.parm.buff, 4095, top.parm.fd))
         {
             top.parm.buff[4095] = 0;
-            fprintf(stderr,"%s:%d %s\n",__FUNCTION__,__LINE__,top.parm.buff);
             do_update(top.parm.buff, top.verbose ? stderr : 0);
         }
     }

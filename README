@@ -1,6 +1,7 @@
 Port of DttSP from OpenExpertSDR to linux libDttSP.so on Ubuntu 14.04.
 
-To build:
+On Ubuntu 14.04, to build:
+sudo apt-get install autoconf autotools-dev automake libtool libfftw3-dev libjack-jackd2-dev liblo-dev
 ./bootstrap
 ./configure
 make
